@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Basketball Application</string>
+    <string name="add_player">Dodaj profil</string>
+    <string name="sort_by_name">Sortuj alfabetycznie</string>
+    <string name="sort_by_position">Sortuj wg pozycji</string>
+    <string name="sort_by_date">Sortuj wg daty dodania</string>
+    <string name="only_position">Wyświetl tylko pozycję</string>
+    <string name="only_point_guards">Point guard</string>
+    <string name="only_shooting_guards">Shooting guard</string>
+    <string name="only_small_forwards">Small forward</string>
+    <string name="only_power_forwards">Power forward</string>
+    <string name="only_centers">Center</string>
+</resources>
