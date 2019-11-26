@@ -7,9 +7,8 @@ import android.basketballapp.repository.PlayerRepository;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -17,8 +16,9 @@ import java.util.List;
 public class PlayerViewModel extends AndroidViewModel {
 
     private PlayerRepository playerRepository;
+    private List<Player> allPlayersList;
     private LiveData<List<Player>> allPlayers;
-    private MediatorLiveData<List<Player>> _allPlayers;
+    private MediatorLiveData<List<Player>> shownPlayers;
     private boolean nameAscending = false;
     private boolean dateAscending = true;
     private boolean positionAscending = true;
@@ -27,16 +27,36 @@ public class PlayerViewModel extends AndroidViewModel {
         super(application);
         playerRepository = new PlayerRepository(application);
         allPlayers = playerRepository.getAllPlayers();
-        _allPlayers = new MediatorLiveData<>();
-        _allPlayers.addSource(allPlayers, value -> _allPlayers.setValue(value));
+        shownPlayers = new MediatorLiveData<>();
+        shownPlayers.addSource(allPlayers, value -> shownPlayers.setValue(value));
     }
 
     public LiveData<List<Player>> getAllPlayers() {
-        return _allPlayers;
+        return shownPlayers;
     }
 
     public void insert(Player player) {
         playerRepository.insert(player);
+    }
+
+    public void filter(Player.Position position) {
+        if(allPlayersList == null)
+            allPlayersList = shownPlayers.getValue();
+
+        List<Player> filteredPlayers = new ArrayList<>();
+        for(Player player : allPlayersList) {
+            if(player.getPosition() == position) {
+                filteredPlayers.add(player);
+            }
+        }
+
+        shownPlayers.setValue(filteredPlayers);
+    }
+
+    public void showAll() {
+        shownPlayers.setValue(allPlayersList);
+        resetOrderFlags();
+        sortByName();
     }
 
     public void sortByName() {
@@ -61,10 +81,10 @@ public class PlayerViewModel extends AndroidViewModel {
     }
 
     private void sort(boolean ascending, Comparator<? super Player> comparator) {
-        _allPlayers.getValue().sort(comparator);
+        shownPlayers.getValue().sort(comparator);
         if(!ascending)
-            Collections.reverse(_allPlayers.getValue());
-        _allPlayers.setValue(_allPlayers.getValue());
+            Collections.reverse(shownPlayers.getValue());
+        shownPlayers.setValue(shownPlayers.getValue());
 
         nameAscending = !nameAscending;
         dateAscending = true;

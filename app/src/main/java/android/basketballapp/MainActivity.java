@@ -22,6 +22,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
     private PlayerViewModel playerViewModel;
     private static final int CREATE_NEW_PLAYER = 1;
+    private MenuItem showAllItem;
+    private MenuItem sortByPositionItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,13 +85,13 @@ public class MainActivity extends AppCompatActivity {
 //                }
 //            }
 //        });
-
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.players_menu, menu);
+        showAllItem = menu.findItem(R.id.show_all);
+        sortByPositionItem = menu.findItem(R.id.sort_by_position);
         return true;
     }
 
@@ -106,6 +109,36 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.sort_by_position:
                 playerViewModel.sortByPosition();
+                return true;
+            case R.id.show_all:
+                sortByPositionItem.setVisible(true);
+                showAllItem.setVisible(false);
+                playerViewModel.showAll();
+                return true;
+            case R.id.only_point_guards:
+                showAllItem.setVisible(true);
+                sortByPositionItem.setVisible(false);
+                playerViewModel.filter(Player.Position.POINT_GUARD);
+                return true;
+            case R.id.only_shooting_guards:
+                showAllItem.setVisible(true);
+                sortByPositionItem.setVisible(false);
+                playerViewModel.filter(Player.Position.SHOOTING_GUARD);
+                return true;
+            case R.id.only_small_forwards:
+                showAllItem.setVisible(true);
+                sortByPositionItem.setVisible(false);
+                playerViewModel.filter(Player.Position.SMALL_FORWARD);
+                return true;
+            case R.id.only_power_forwards:
+                showAllItem.setVisible(true);
+                sortByPositionItem.setVisible(false);
+                playerViewModel.filter(Player.Position.POWER_FORWARD);
+                return true;
+            case R.id.only_centers:
+                showAllItem.setVisible(true);
+                sortByPositionItem.setVisible(false);
+                playerViewModel.filter(Player.Position.CENTER);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

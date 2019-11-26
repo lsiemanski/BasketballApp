@@ -83,11 +83,6 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Pl
             } else {
                 holder.imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.profile, context.getTheme()));
             }
-
-
-
-        } else {
-
         }
     }
 
