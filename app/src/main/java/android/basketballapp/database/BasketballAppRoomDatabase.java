@@ -1,6 +1,10 @@
 package android.basketballapp.database;
 
+import android.basketballapp.dao.CategoryDao;
+import android.basketballapp.dao.DrillDao;
 import android.basketballapp.dao.PlayerDao;
+import android.basketballapp.entity.Category;
+import android.basketballapp.entity.Drill;
 import android.basketballapp.entity.Player;
 import android.content.Context;
 
@@ -13,10 +17,12 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Player.class}, version=1, exportSchema = false)
+@Database(entities = {Player.class, Category.class, Drill.class}, version=1, exportSchema = false)
 public abstract class BasketballAppRoomDatabase extends RoomDatabase {
 
     public abstract PlayerDao playerDao();
+    public abstract CategoryDao categoryDao();
+    public abstract DrillDao drillDao();
 
     private static volatile BasketballAppRoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -58,6 +64,22 @@ public abstract class BasketballAppRoomDatabase extends RoomDatabase {
 //                dao.insert(player5);
 //                Player player6 = new Player("Tim", "Duncan", Player.Position.POWER_FORWARD, 210);
 //                dao.insert(player6);
+                CategoryDao categoryDao = INSTANCE.categoryDao();
+                categoryDao.deleteAll();
+                Category shooting = new Category("Shooting", "shooting_drill");
+                categoryDao.insert(shooting);
+                Category dribbling = new Category("Dribbling", "dribbling_drill");
+                categoryDao.insert(dribbling);
+                DrillDao drillDao = INSTANCE.drillDao();
+                drillDao.deleteAll();
+                Drill drill = new Drill("5 position 3-point shooting", "5_position_drill.html", shooting);
+                drillDao.insert(drill);
+                Drill drill2 = new Drill("Ray Allen drill", "ray_allen_drill.html", shooting);
+                drillDao.insert(drill2);
+                Drill drill3 = new Drill("Form shooting", "", shooting);
+                drillDao.insert(drill3);
+                Drill drill4 = new Drill("Warmup dribbling", "", dribbling);
+                drillDao.insert(drill4);
             });
         }
     };

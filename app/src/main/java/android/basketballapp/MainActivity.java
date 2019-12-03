@@ -15,6 +15,7 @@ import android.basketballapp.viewmodel.PlayerViewModel;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -63,9 +64,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        Drawable drawable = getResources().getDrawable(R.drawable.jordan, getTheme());
+//        Drawable drawable = getResources().getDrawable(R.drawable.floor_dark, getTheme());
 //        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-//
+
 //        Button save = findViewById(R.id.save);
 //
 //        save.setOnClickListener(new View.OnClickListener() {
@@ -73,13 +74,14 @@ public class MainActivity extends AppCompatActivity {
 //            public void onClick(View v) {
 //                ContextWrapper cw = new ContextWrapper(getApplicationContext());
 //                File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-//                File file = new File(directory, "jordan.png");
+//                File file = new File(directory, "floor-dark.png");
+//                System.out.println(file.getAbsolutePath());
 //                try {
 //                    FileOutputStream fos = new FileOutputStream(file);
 //                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 //                    fos.flush();
 //                    fos.close();
-//                    System.out.println("DONE");
+//                    System.out.println("DONE\n");
 //                } catch(IOException e) {
 //                    e.printStackTrace();
 //                }
@@ -101,45 +103,55 @@ public class MainActivity extends AppCompatActivity {
             case R.id.add_player:
                 openAddPlayerActivity();
                 return true;
+
             case R.id.sort_by_name:
                 playerViewModel.sortByName();
                 return true;
+
             case R.id.sort_by_date:
                 playerViewModel.sortByDate();
                 return true;
+
             case R.id.sort_by_position:
                 playerViewModel.sortByPosition();
                 return true;
+
             case R.id.show_all:
                 sortByPositionItem.setVisible(true);
                 showAllItem.setVisible(false);
                 playerViewModel.showAll();
                 return true;
+
             case R.id.only_point_guards:
                 showAllItem.setVisible(true);
                 sortByPositionItem.setVisible(false);
                 playerViewModel.filter(Player.Position.POINT_GUARD);
                 return true;
+
             case R.id.only_shooting_guards:
                 showAllItem.setVisible(true);
                 sortByPositionItem.setVisible(false);
                 playerViewModel.filter(Player.Position.SHOOTING_GUARD);
                 return true;
+
             case R.id.only_small_forwards:
                 showAllItem.setVisible(true);
                 sortByPositionItem.setVisible(false);
                 playerViewModel.filter(Player.Position.SMALL_FORWARD);
                 return true;
+
             case R.id.only_power_forwards:
                 showAllItem.setVisible(true);
                 sortByPositionItem.setVisible(false);
                 playerViewModel.filter(Player.Position.POWER_FORWARD);
                 return true;
+
             case R.id.only_centers:
                 showAllItem.setVisible(true);
                 sortByPositionItem.setVisible(false);
                 playerViewModel.filter(Player.Position.CENTER);
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

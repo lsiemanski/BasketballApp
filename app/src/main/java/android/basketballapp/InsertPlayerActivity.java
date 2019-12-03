@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -19,6 +20,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -66,14 +69,16 @@ public class InsertPlayerActivity extends AppCompatActivity {
                 EditText editTextSurname = findViewById(R.id.surname_text_input_edit_text);
                 EditText editTextHeight = findViewById(R.id.height_text_input_edit_text);
 
-                Intent replyIntent = new Intent();
-                replyIntent.putExtra("name", editTextName.getText().toString());
-                replyIntent.putExtra("surname", editTextSurname.getText().toString());
-                replyIntent.putExtra("height", Integer.parseInt(editTextHeight.getText().toString()));
-                replyIntent.putExtra("position", positionSpinner.getSelectedItem().toString());
-                replyIntent.putExtra("image", selectedImage == null ? null : selectedImage.toString());
-                setResult(RESULT_OK, replyIntent);
-                finish();
+                if(validateEntries(editTextName, editTextSurname, editTextHeight)) {
+                    Intent replyIntent = new Intent();
+                    replyIntent.putExtra("name", editTextName.getText().toString());
+                    replyIntent.putExtra("surname", editTextSurname.getText().toString());
+                    replyIntent.putExtra("height", Integer.parseInt(editTextHeight.getText().toString()));
+                    replyIntent.putExtra("position", positionSpinner.getSelectedItem().toString());
+                    replyIntent.putExtra("image", selectedImage == null ? null : selectedImage.toString());
+                    setResult(RESULT_OK, replyIntent);
+                    finish();
+                }
             }
         });
     }
@@ -94,5 +99,18 @@ public class InsertPlayerActivity extends AppCompatActivity {
             ImageView imageView = findViewById(R.id.profile_picture);
             imageView.setImageBitmap(bitmap);
         }
+    }
+
+    private boolean validateEntries(EditText... editTexts) {
+        boolean isOk = true;
+
+        for(EditText editText : editTexts) {
+            if(editText.getText().toString().equals("")) {
+                editText.setError("Input must not be empty!");
+                isOk = false;
+            }
+        }
+
+        return isOk;
     }
 }

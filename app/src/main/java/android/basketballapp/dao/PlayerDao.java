@@ -22,4 +22,7 @@ public interface PlayerDao {
 
     @Query("SELECT * FROM players ORDER BY surname ASC, name ASC")
     LiveData<List<Player>> getAllPlayers();
+
+    @Query("SELECT * FROM players WHERE playerId=:id")
+    Player getPlayer(int id);
 }

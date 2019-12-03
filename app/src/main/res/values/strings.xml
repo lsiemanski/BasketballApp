@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Basketball Application</string>
     <string name="add_player">Add profile</string>
+    <string name="sort_players">Sort</string>
+    <string name="filter_players">Filter</string>
     <string name="sort_by_name">Sort alphabetically</string>
     <string name="sort_by_position">Sort by position</string>
     <string name="sort_by_date">Sort by date joined</string>

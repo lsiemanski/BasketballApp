@@ -1,0 +1,31 @@
+body {
+    background-image: url("floor_dark.png");
+    background-repeat: repeat-y;
+    color: #E0BB84;
+    text-align: justify;
+    font-family: 'Lato', sans-serif;
+}
+
+h2 {
+    color: #FFC609;
+    text-shadow: 2px 2px #000000;
+}
+
+p, ul {
+    font-size: 120%;
+}
+
+iframe {
+    width: 100%;
+    height: 200px;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width:100%;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}

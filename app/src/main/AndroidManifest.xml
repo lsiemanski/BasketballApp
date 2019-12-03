@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="android.basketballapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,10 +11,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".InsertPlayerActivity"
-            android:parentActivityName=".MainActivity"
-            android:label="Add player"/>
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".DrillListActivity"
+            android:label="Drills"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".DrillActivity"
+            android:label="Drill"
+            android:parentActivityName=".DrillListActivity" />
+        <activity
+            android:name=".InsertPlayerActivity"
+            android:label="Add player"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".MainActivity"
             android:label="Players">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
