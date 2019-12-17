@@ -2,11 +2,14 @@ package android.basketballapp.adapter;
 
 import android.basketballapp.DrillActivity;
 import android.basketballapp.R;
+import android.basketballapp.entity.Category;
 import android.basketballapp.entity.Drill;
+import android.basketballapp.entity.DrillAndCategory;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.icu.util.ULocale;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +25,7 @@ import java.util.List;
 
 public class DrillListAdapter extends RecyclerView.Adapter<DrillListAdapter.DrillViewHolder> {
 
-    class DrillViewHolder extends  RecyclerView.ViewHolder {
+    class DrillViewHolder extends RecyclerView.ViewHolder {
         private final TextView categoryNameView;
         private final TextView drillNameView;
         private final ImageView imageView;
@@ -53,7 +56,7 @@ public class DrillListAdapter extends RecyclerView.Adapter<DrillListAdapter.Dril
 
     private final LayoutInflater inflater;
     private final Context context;
-    private List<Drill> drills;
+    private List<DrillAndCategory> drills;
     private int playerId;
 
     public DrillListAdapter(Context context, int playerId) {
@@ -84,10 +87,10 @@ public class DrillListAdapter extends RecyclerView.Adapter<DrillListAdapter.Dril
     @Override
     public void onBindViewHolder(@NonNull DrillViewHolder holder, int position) {
         if(drills != null) {
-            Drill current = drills.get(position);
+            DrillAndCategory current = drills.get(position);
             holder.categoryNameView.setText(current.category.name);
-            holder.drillNameView.setText(current.name);
-            holder.htmlFile = current.htmlFile;
+            holder.drillNameView.setText(current.drill.name);
+            holder.htmlFile = current.drill.htmlFile;
 
             Resources resources = context.getResources();
             final int resourceId = resources.getIdentifier(current.category.image, "drawable", context.getPackageName());
@@ -95,7 +98,7 @@ public class DrillListAdapter extends RecyclerView.Adapter<DrillListAdapter.Dril
         }
     }
 
-    public void setDrills(List<Drill> drills) {
+    public void setDrills(List<DrillAndCategory> drills) {
         this.drills = drills;
         notifyDataSetChanged();
     }

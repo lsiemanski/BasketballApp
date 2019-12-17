@@ -5,19 +5,24 @@ import android.basketballapp.dao.DrillDao;
 import android.basketballapp.dao.PlayerDao;
 import android.basketballapp.entity.Category;
 import android.basketballapp.entity.Drill;
+import android.basketballapp.entity.DrillAndCategory;
 import android.basketballapp.entity.Player;
+import android.basketballapp.entity.Shot;
+import android.basketballapp.entity.Spot;
+import android.basketballapp.entity.Training;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Player.class, Category.class, Drill.class}, version=1, exportSchema = false)
+@Database(entities = {Player.class, Category.class, Drill.class, Training.class, Spot.class, Shot.class}, version=1, exportSchema = false)
 public abstract class BasketballAppRoomDatabase extends RoomDatabase {
 
     public abstract PlayerDao playerDao();
@@ -40,6 +45,7 @@ public abstract class BasketballAppRoomDatabase extends RoomDatabase {
                 }
             }
         }
+
         return INSTANCE;
     }
 
@@ -49,6 +55,7 @@ public abstract class BasketballAppRoomDatabase extends RoomDatabase {
             super.onOpen(db);
 
             databaseWriterExecutor.execute(() -> {
+
 //                PlayerDao dao = INSTANCE.playerDao();
 //                dao.deleteAll();
 //                Player player = new Player("Michael", "Jordan", Player.Position.SHOOTING_GUARD, 198);
@@ -72,13 +79,15 @@ public abstract class BasketballAppRoomDatabase extends RoomDatabase {
                 categoryDao.insert(dribbling);
                 DrillDao drillDao = INSTANCE.drillDao();
                 drillDao.deleteAll();
-                Drill drill = new Drill("5 position 3-point shooting", "5_position_drill.html", shooting);
+                shooting = categoryDao.getCategory("Shooting");
+                dribbling = categoryDao.getCategory("Dribbling");
+                Drill drill = new Drill("5 position 3-point shooting", "5_position_drill.html", shooting.id);
                 drillDao.insert(drill);
-                Drill drill2 = new Drill("Ray Allen drill", "ray_allen_drill.html", shooting);
+                Drill drill2 = new Drill("Ray Allen drill", "ray_allen_drill.html", shooting.id);
                 drillDao.insert(drill2);
-                Drill drill3 = new Drill("Form shooting", "", shooting);
+                Drill drill3 = new Drill("Form shooting", "", shooting.id);
                 drillDao.insert(drill3);
-                Drill drill4 = new Drill("Warmup dribbling", "", dribbling);
+                Drill drill4 = new Drill("Warmup dribbling", "", dribbling.id);
                 drillDao.insert(drill4);
             });
         }

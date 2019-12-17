@@ -1,6 +1,8 @@
 package android.basketballapp.dao;
 
 import android.basketballapp.entity.Drill;
+import android.basketballapp.entity.DrillAndCategory;
+import android.basketballapp.entity.Spot;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -21,4 +23,10 @@ public interface DrillDao {
 
     @Query("DELETE FROM drills")
     void deleteAll();
+
+    @Query("SELECT drills.*, categories.* FROM drills INNER JOIN categories ON drills.categoryId = categories.category_id")
+    LiveData<List<DrillAndCategory>> getAllDrillsWithCategories();
+
+//    @Query("SELECT * FROM spots WHERE drillId=:drillId")
+//    List<Spot> getSpotsForDrill(int drillId);
 }

@@ -17,6 +17,7 @@ import java.util.Date;
 public class Player {
 
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "player_id")
     public int playerId;
 
     @NonNull

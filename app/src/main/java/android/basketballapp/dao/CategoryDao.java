@@ -19,8 +19,11 @@ public interface CategoryDao {
     @Query("SELECT * FROM categories")
     LiveData<List<Category>> getAllCategories();
 
-    @Query("SELECT * FROM categories WHERE categoryId=:id")
+    @Query("SELECT * FROM categories WHERE category_id=:id")
     Category getCategory(int id);
+
+    @Query("SELECT * FROM categories WHERE categoryName=:name")
+    Category getCategory(String name);
 
     @Query("DELETE FROM categories")
     void deleteAll();

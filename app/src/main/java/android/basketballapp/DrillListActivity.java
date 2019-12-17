@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.basketballapp.adapter.DrillListAdapter;
 import android.basketballapp.entity.Drill;
+import android.basketballapp.entity.DrillAndCategory;
 import android.basketballapp.viewmodel.DrillViewModel;
 import android.os.Bundle;
 
@@ -29,9 +30,9 @@ public class DrillListActivity extends AppCompatActivity {
 
         drillViewModel = ViewModelProviders.of(this).get(DrillViewModel.class);
 
-        drillViewModel.getAllDrills().observe(this, new Observer<List<Drill>>() {
+        drillViewModel.getAllDrills().observe(this, new Observer<List<DrillAndCategory>>() {
             @Override
-            public void onChanged(List<Drill> drills) { adapter.setDrills(drills); }
+            public void onChanged(List<DrillAndCategory> drills) { adapter.setDrills(drills); }
         });
     }
 }
