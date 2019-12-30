@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintSet;
 
 import android.basketballapp.entity.Training;
+import android.basketballapp.utils.BlockedCursorEditText;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,6 +16,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 public class DrillActivity extends AppCompatActivity {
 
@@ -42,14 +45,16 @@ public class DrillActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra("numberOfShots", pickerValue);
-                startActivity(intent);
+                if(pickerValue > 0) {
+                    intent.putExtra("numberOfShots", pickerValue);
+                    startActivity(intent);
+                }
             }
         });
 
         Button minusButton = findViewById(R.id.minus);
         Button plusButton = findViewById(R.id.plus);
-        EditText picker = findViewById(R.id.picker);
+        BlockedCursorEditText picker = findViewById(R.id.picker);
         pickerValue = Integer.parseInt(picker.getText().toString());
 
         picker.addTextChangedListener(new TextWatcher() {
@@ -60,24 +65,31 @@ public class DrillActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                if(s.toString().equals("0")) {
+                    picker.setText("");
+                    pickerValue = 0;
+                } else if(hasLeadingZeros(s.toString())) {
+                    picker.setText(trimLeadingZeros(s.toString()));
+                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!s.toString().equals("")) {
+                if(!s.toString().equals("") && !s.toString().equals("0")) {
                     int newValue = Integer.parseInt(s.toString());
                     if(newValue > MAX_PICKER_VALUE) {
                         pickerValue = MAX_PICKER_VALUE;
                         picker.setText(Integer.toString(pickerValue));
-                        Toast.makeText(getApplicationContext(), "Maksymalna wartosc to: " + Integer.toString(MAX_PICKER_VALUE), Toast.LENGTH_SHORT);
+                        //Toast.makeText(getApplicationContext(), "Maksymalna wartosc to: " + Integer.toString(MAX_PICKER_VALUE), Toast.LENGTH_SHORT);
                     } else if(newValue < MIN_PICKER_VALUE) {
                         pickerValue = MIN_PICKER_VALUE;
                         picker.setText(Integer.toString(pickerValue));
-                        Toast.makeText(getApplicationContext(), "Minimalna wartosc to: " + Integer.toString(MIN_PICKER_VALUE), Toast.LENGTH_SHORT);
+                        //Toast.makeText(getApplicationContext(), "Minimalna wartosc to: " + Integer.toString(MIN_PICKER_VALUE), Toast.LENGTH_SHORT);
                     } else {
                         pickerValue = newValue;
                     }
+                } else {
+                    pickerValue = 0;
                 }
             }
         });
@@ -93,5 +105,14 @@ public class DrillActivity extends AppCompatActivity {
                 pickerValue += 1;
             picker.setText(Integer.toString(pickerValue));
         });
+    }
+
+    //TODO: zrobic klase Utils na to
+    private String trimLeadingZeros(String s) {
+        return s.replaceFirst("^0+(?!$)", "");
+    }
+
+    private boolean hasLeadingZeros(String s) {
+        return s.startsWith("0");
     }
 }

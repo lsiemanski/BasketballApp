@@ -132,7 +132,7 @@
             <!--android:textSize="20dp"-->
             <!--android:textStyle="bold" />-->
 
-        <com.google.android.material.textfield.TextInputEditText
+        <android.basketballapp.utils.BlockedCursorEditText
             android:id="@+id/picker"
             android:layout_width="50dp"
             android:layout_height="40dp"
@@ -142,6 +142,7 @@
             android:textColor="@color/black"
             android:textSize="20dp"
             android:textStyle="bold"
+            android:cursorVisible="false"
             android:background="@android:color/transparent"
             />
 
