@@ -28,7 +28,7 @@
     </item>
 
     <item android:id="@+id/filter_players"
-        android:icon="@drawable/filter"
+        android:icon="@drawable/filter_icon"
         android:title="@string/filter_players"
         app:showAsAction="always|withText">
 
