@@ -3,6 +3,7 @@ package android.basketballapp.database;
 import android.basketballapp.dao.CategoryDao;
 import android.basketballapp.dao.DrillDao;
 import android.basketballapp.dao.PlayerDao;
+import android.basketballapp.dao.ShotDao;
 import android.basketballapp.dao.SpotDao;
 import android.basketballapp.dao.TrainingDao;
 import android.basketballapp.entity.Category;
@@ -12,9 +13,11 @@ import android.basketballapp.entity.Player;
 import android.basketballapp.entity.Shot;
 import android.basketballapp.entity.Spot;
 import android.basketballapp.entity.Training;
+import android.basketballapp.entity.TrainingAndShots;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -32,6 +35,7 @@ public abstract class BasketballAppRoomDatabase extends RoomDatabase {
     public abstract DrillDao drillDao();
     public abstract TrainingDao trainingDao();
     public abstract SpotDao spotDao();
+    public abstract ShotDao shotDao();
 
     private static volatile BasketballAppRoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -100,6 +104,8 @@ public abstract class BasketballAppRoomDatabase extends RoomDatabase {
 //                spotDao.insert(new Spot(1, "Right 45", 3));
 //                spotDao.insert(new Spot(1, "Left 45", 4));
 //                spotDao.insert(new Spot(1, "Top", 5));
+//                TrainingDao trainingDao = INSTANCE.trainingDao();
+//                TrainingAndShots trainingAndShots = trainingDao.getTrainingAndShots2(1);
             });
         }
     };

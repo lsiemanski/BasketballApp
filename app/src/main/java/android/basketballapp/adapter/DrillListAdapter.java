@@ -64,6 +64,7 @@ public class DrillListAdapter extends RecyclerView.Adapter<DrillListAdapter.Dril
     public DrillListAdapter(Context context, int playerId) {
         inflater = LayoutInflater.from(context);
         this.context = context;
+        this.playerId = playerId;
     }
 
     @Override

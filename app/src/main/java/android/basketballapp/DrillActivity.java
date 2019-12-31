@@ -46,8 +46,8 @@ public class DrillActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(pickerValue > 0) {
-                    System.out.println(getIntent().getIntExtra("drillId", 0));
                     intent.putExtra("drillId", getIntent().getIntExtra("drillId", 0));
+                    intent.putExtra("playerId", getIntent().getIntExtra("playerId", 0));
                     intent.putExtra("numberOfShots", pickerValue);
                     startActivity(intent);
                 }

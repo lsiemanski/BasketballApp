@@ -8,6 +8,7 @@ import android.basketballapp.entity.DrillAndSpots;
 import android.basketballapp.entity.Shot;
 import android.basketballapp.entity.ShotAndSpot;
 import android.basketballapp.entity.Spot;
+import android.basketballapp.entity.TrainingAndShots;
 import android.basketballapp.viewmodel.TrainingViewModel;
 import android.basketballapp.viewmodel.factory.TrainingViewModelFactory;
 import android.content.Intent;
@@ -37,6 +38,7 @@ public class TrainingActivity extends AppCompatActivity {
     private Button makeButton, missButton;
 
     private TrainingViewModel trainingViewModel;
+    TrainingAndShots trainingAndShots;
 
     private class SpotLayout {
         ImageView imageView;
@@ -93,11 +95,13 @@ public class TrainingActivity extends AppCompatActivity {
         missButton = findViewById(R.id.miss);
 
         makeButton.setOnClickListener((v -> {
-            updateView(trainingViewModel.addShotMade(), trainingViewModel.getPrevious(), trainingViewModel.getCurrent());
+            if(!trainingViewModel.isOver())
+                updateView(trainingViewModel.addShotMade(), trainingViewModel.getPrevious(), trainingViewModel.getCurrent());
         }));
 
         missButton.setOnClickListener(v -> {
-            updateView(trainingViewModel.addShotMissed(), trainingViewModel.getPrevious(), trainingViewModel.getCurrent());
+            if(!trainingViewModel.isOver())
+                updateView(trainingViewModel.addShotMissed(), trainingViewModel.getPrevious(), trainingViewModel.getCurrent());
         });
     }
 
@@ -105,6 +109,10 @@ public class TrainingActivity extends AppCompatActivity {
         updateTable(shotAndSpot);
         updateTextViews(shotAndSpot, current);
         updateSpotLayouts(current, next);
+
+        if(trainingViewModel.isOver())
+            trainingViewModel.saveTrainingData();
+
     }
 
     private void updateSpotLayouts(int current, int next) {

@@ -6,8 +6,11 @@ import android.basketballapp.entity.Shot;
 import android.basketballapp.entity.ShotAndSpot;
 import android.basketballapp.entity.Spot;
 import android.basketballapp.entity.Training;
+import android.basketballapp.entity.TrainingAndShots;
 import android.basketballapp.repository.DrillRepository;
+import android.basketballapp.repository.ShotRepository;
 import android.basketballapp.repository.TrainingRepository;
+import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -22,6 +25,7 @@ public class TrainingViewModel extends AndroidViewModel {
 
     private TrainingRepository trainingRepository;
     private DrillRepository drillRepository;
+    private ShotRepository shotRepository;
 
     private LiveData<DrillAndSpots> drillAndSpots;
     private MediatorLiveData<DrillAndSpots> _drillAndSpots;
@@ -32,6 +36,7 @@ public class TrainingViewModel extends AndroidViewModel {
     private int current;
 
     private int numberOfSpots;
+    private int numberOfShots;
     private int totalMakes;
     private int totalShots;
     private List<SpotAndResults> spotAndResults;
@@ -40,8 +45,9 @@ public class TrainingViewModel extends AndroidViewModel {
         super(application);
         application.getApplicationContext();
         trainingRepository = new TrainingRepository(application);
-
         drillRepository = new DrillRepository(application);
+        shotRepository = new ShotRepository(application);
+
         drillAndSpots = drillRepository.getDrillAndSpots(drillId);
         _drillAndSpots = new MediatorLiveData<>();
         _drillAndSpots.addSource(drillAndSpots, value -> _drillAndSpots.setValue(value));
@@ -74,6 +80,8 @@ public class TrainingViewModel extends AndroidViewModel {
         shotAndSpots = new ArrayList<>();
 
         numberOfSpots = drillAndSpots.spots.size();
+        this.numberOfShots = numberOfShots * numberOfSpots;
+
         current = 0;
         totalMakes = 0;
         totalShots = 0;
@@ -107,11 +115,30 @@ public class TrainingViewModel extends AndroidViewModel {
         return shotAndSpot;
     }
 
+    public boolean isOver() {
+        return numberOfShots == totalShots;
+    }
+
+    public void saveTrainingData() {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                int trainingId = (int) trainingRepository.insert(currentTraining);
+
+                for(int i = 0; i < shotAndSpots.size(); i++) {
+                    shotAndSpots.get(i).shot.trainingId = trainingId;
+                    shotRepository.insert(shotAndSpots.get(i).shot);
+                }
+            }
+        });
+    }
+
     private void updateShotAndSpot(ShotAndSpot shotAndSpot, SpotAndResults spotAndResults) {
         shotAndSpot.shot.madeFromSpot = spotAndResults.made;
         shotAndSpot.shot.takenFromSpot = spotAndResults.taken;
         shotAndSpot.shot.madeTotal = totalMakes;
         shotAndSpot.shot.takenTotal = totalShots;
+        shotAndSpots.add(shotAndSpot);
     }
 
     private int generateNext(int current) {
