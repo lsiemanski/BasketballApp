@@ -1,10 +1,16 @@
 package android.basketballapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
+import android.basketballapp.entity.DrillAndSpots;
 import android.basketballapp.entity.Shot;
 import android.basketballapp.entity.ShotAndSpot;
 import android.basketballapp.entity.Spot;
+import android.basketballapp.viewmodel.TrainingViewModel;
+import android.basketballapp.viewmodel.factory.TrainingViewModelFactory;
+import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
 import android.graphics.drawable.shapes.Shape;
 import android.os.Bundle;
@@ -25,121 +31,89 @@ import java.util.Map;
 public class TrainingActivity extends AppCompatActivity {
 
     private static final int TRANSITION_TIME = 200;
-    private int current = 0;
-    private TransitionDrawable[] order;
+
     private TableLayout reportTable;
-    private int totalMakes = 0;
-    private int totalShots = 0;
-    private TextView[] spotResults;
-    private int numberOfShots;
+    private SpotLayout[] spotLayouts;
+    private Button makeButton, missButton;
+
+    private TrainingViewModel trainingViewModel;
+
+    private class SpotLayout {
+        ImageView imageView;
+        TextView textView;
+
+        SpotLayout(ImageView imageView, TextView textView) {
+            this.imageView = imageView;
+            this.textView = textView;
+        }
+
+        TransitionDrawable getDrawable() {
+            return (TransitionDrawable) imageView.getDrawable();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training);
 
-        Spot[] spots = new Spot[]{
-                new Spot(1, "Left corner"),
-                new Spot(1, "Right corner"),
-                new Spot(1, "Right 45"),
-                new Spot(1, "Left 45"),
-                new Spot(1, "Top")
-        };
+        Intent parentIntent = getIntent();
+        int drillId = parentIntent.getIntExtra("drillId", 0);
+        int playerId = parentIntent.getIntExtra("playerId", 0);
+        int numberOfShots = parentIntent.getIntExtra("numberOfShots", 0);
 
-        numberOfShots = getIntent().getIntExtra("numberOfShots", 0) * spots.length;
+        initViewModel(getIntent(), drillId);
+        initView();
 
-        Map<Spot, int[]> spotShots = new HashMap<>();
-        spotShots.put(spots[0], new int[]{0,0});
-        spotShots.put(spots[1], new int[]{0,0});
-        spotShots.put(spots[2], new int[]{0,0});
-        spotShots.put(spots[3], new int[]{0,0});
-        spotShots.put(spots[4], new int[]{0,0});
+        trainingViewModel.getDrillAndSpots().observe(this, new Observer<DrillAndSpots>() {
+            @Override
+            public void onChanged(DrillAndSpots drillAndSpots) {
+                trainingViewModel.initTraining(drillId, playerId, numberOfShots);
+            }
+        });
+    }
 
-        ImageView spot1 = findViewById(R.id.spot1);
-        ImageView spot2 = findViewById(R.id.spot2);
-        ImageView spot3 = findViewById(R.id.spot3);
-        ImageView spot4 = findViewById(R.id.spot4);
-        ImageView spot5 = findViewById(R.id.spot5);
-        TransitionDrawable transition1 = (TransitionDrawable) spot1.getDrawable();
-        TransitionDrawable transition2 = (TransitionDrawable) spot2.getDrawable();
-        TransitionDrawable transition3 = (TransitionDrawable) spot3.getDrawable();
-        TransitionDrawable transition4 = (TransitionDrawable) spot4.getDrawable();
-        TransitionDrawable transition5 = (TransitionDrawable) spot5.getDrawable();
+    private void initViewModel(Intent parentIntent, int drillId) {
+        trainingViewModel = ViewModelProviders.of(this, new TrainingViewModelFactory(this.getApplication(), drillId)).get(TrainingViewModel.class);
+    }
 
-        order = new TransitionDrawable[]{transition1, transition5, transition4, transition2, transition3};
-        order[current].startTransition(TRANSITION_TIME);
+    private void initView() {
+        SpotLayout spotLayout1 = new SpotLayout(findViewById(R.id.spot1), findViewById(R.id.tv1));
+        SpotLayout spotLayout2 = new SpotLayout(findViewById(R.id.spot2), findViewById(R.id.tv2));
+        SpotLayout spotLayout3 = new SpotLayout(findViewById(R.id.spot3), findViewById(R.id.tv3));
+        SpotLayout spotLayout4 = new SpotLayout(findViewById(R.id.spot4), findViewById(R.id.tv4));
+        SpotLayout spotLayout5 = new SpotLayout(findViewById(R.id.spot5), findViewById(R.id.tv5));
 
-        TextView tv1 = findViewById(R.id.tv1);
-        TextView tv2 = findViewById(R.id.tv2);
-        TextView tv3 = findViewById(R.id.tv3);
-        TextView tv4 = findViewById(R.id.tv4);
-        TextView tv5 = findViewById(R.id.tv5);
-
-        spotResults = new TextView[]{tv1, tv5, tv4, tv2, tv3};
+        spotLayouts = new SpotLayout[] {spotLayout1, spotLayout5, spotLayout4, spotLayout2, spotLayout3};
+        spotLayouts[0].getDrawable().startTransition(TRANSITION_TIME);
 
         reportTable = findViewById(R.id.report_table);
-        List<ShotAndSpot> shots = new ArrayList<ShotAndSpot>();
 
-        Button makeButton = findViewById(R.id.make);
-        Button missButton = findViewById(R.id.miss);
+        makeButton = findViewById(R.id.make);
+        missButton = findViewById(R.id.miss);
 
         makeButton.setOnClickListener((v -> {
-            if(totalShots < numberOfShots) {
-                Spot currentSpot = spots[current];
-                int spotMakes = spotShots.get(currentSpot)[0];
-                int spotTotal = spotShots.get(currentSpot)[1];
-                spotShots.put(currentSpot, new int[]{spotMakes + 1, spotTotal + 1});
-
-                totalMakes += 1;
-                totalShots += 1;
-
-                ShotAndSpot shotAndSpot = new ShotAndSpot(new Shot(1, 1, true), currentSpot);
-                shotAndSpot.shot.madeFromSpot = spotShots.get(shotAndSpot.spot)[0];
-                shotAndSpot.shot.takenFromSpot = spotShots.get(shotAndSpot.spot)[1];
-                shotAndSpot.shot.madeTotal = totalMakes;
-                shotAndSpot.shot.takenTotal = totalShots;
-
-                shots.add(shotAndSpot);
-
-                updateTable(shotAndSpot);
-                updateTextViews(shotAndSpot);
-                updateOrder();
-            }
+            updateView(trainingViewModel.addShotMade(), trainingViewModel.getPrevious(), trainingViewModel.getCurrent());
         }));
 
         missButton.setOnClickListener(v -> {
-            if(totalShots < numberOfShots) {
-                Spot currentSpot = spots[current];
-                int spotMakes = spotShots.get(currentSpot)[0];
-                int spotTotal = spotShots.get(currentSpot)[1];
-                spotShots.put(currentSpot, new int[]{spotMakes, spotTotal + 1});
-
-                totalShots += 1;
-
-                ShotAndSpot shotAndSpot = new ShotAndSpot(new Shot(1, 1, false), currentSpot);
-                shotAndSpot.shot.madeFromSpot = spotShots.get(shotAndSpot.spot)[0];
-                shotAndSpot.shot.takenFromSpot = spotShots.get(shotAndSpot.spot)[1];
-                shotAndSpot.shot.madeTotal = totalMakes;
-                shotAndSpot.shot.takenTotal = totalShots;
-
-                shots.add(shotAndSpot);
-
-                updateTable(shotAndSpot);
-                updateTextViews(shotAndSpot);
-                updateOrder();
-            }
+            updateView(trainingViewModel.addShotMissed(), trainingViewModel.getPrevious(), trainingViewModel.getCurrent());
         });
-
     }
 
-    private void updateOrder() {
-        order[current].reverseTransition(TRANSITION_TIME);
-        current = (current + 1) % order.length;
-        order[current].startTransition(TRANSITION_TIME);
+    private void updateView(ShotAndSpot shotAndSpot, int current, int next) {
+        updateTable(shotAndSpot);
+        updateTextViews(shotAndSpot, current);
+        updateSpotLayouts(current, next);
     }
 
-    private void updateTextViews(ShotAndSpot shotAndSpot) {
-        spotResults[current].setText(shotAndSpot.shot.madeFromSpot + "/" + shotAndSpot.shot.takenFromSpot);
+    private void updateSpotLayouts(int current, int next) {
+        spotLayouts[current].getDrawable().reverseTransition(TRANSITION_TIME);
+        spotLayouts[next].getDrawable().startTransition(TRANSITION_TIME);
+    }
+
+    private void updateTextViews(ShotAndSpot shotAndSpot, int current) {
+        spotLayouts[current].textView.setText(shotAndSpot.shot.madeFromSpot + "/" + shotAndSpot.shot.takenFromSpot);
     }
 
     private void updateTable(ShotAndSpot shotAndSpot) {

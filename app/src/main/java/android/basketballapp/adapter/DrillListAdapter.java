@@ -31,6 +31,7 @@ public class DrillListAdapter extends RecyclerView.Adapter<DrillListAdapter.Dril
         private final ImageView imageView;
         private final Button selectButton;
         private String htmlFile;
+        private int drillId;
 
         private DrillViewHolder(View itemView) {
             super(itemView);
@@ -46,6 +47,7 @@ public class DrillListAdapter extends RecyclerView.Adapter<DrillListAdapter.Dril
                         Intent drillActivityIntent = new Intent(context, DrillActivity.class);
                         drillActivityIntent.putExtra("htmlFile", htmlFile);
                         drillActivityIntent.putExtra("drillName", drillNameView.getText());
+                        drillActivityIntent.putExtra("drillId", drillId);
                         drillActivityIntent.putExtra("playerId", playerId);
                         context.startActivity(drillActivityIntent);
                     }
@@ -91,6 +93,7 @@ public class DrillListAdapter extends RecyclerView.Adapter<DrillListAdapter.Dril
             holder.categoryNameView.setText(current.category.name);
             holder.drillNameView.setText(current.drill.name);
             holder.htmlFile = current.drill.htmlFile;
+            holder.drillId = current.drill.drillId;
 
             Resources resources = context.getResources();
             final int resourceId = resources.getIdentifier(current.category.image, "drawable", context.getPackageName());
