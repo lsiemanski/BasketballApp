@@ -36,6 +36,12 @@ public class Training {
     @ColumnInfo(name = "playerId")
     public int playerId;
 
+    @ColumnInfo(name = "totalMakes")
+    public int totalMakes;
+
+    @ColumnInfo(name = "totalShots")
+    public int totalShots;
+
     @TypeConverters(DateConverter.class)
     @ColumnInfo(name="trainingDate")
     public Date date;

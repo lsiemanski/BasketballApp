@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".TrainingSummaryActivity">
+
+    <include android:id="@+id/drill_5_position_shooting" layout="@layout/training_5_position_drill" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/light_background"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription=""
+                android:scaleType="centerCrop"
+                android:src="@drawable/floor_light"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/ok"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/floor_dark"
+                android:text="OK"
+                android:textColor="#E0BB84"
+                android:textSize="22dp"
+                app:layout_constraintBottom_toBottomOf="@+id/light_background"
+                app:layout_constraintEnd_toEndOf="@+id/light_background"
+                app:layout_constraintStart_toStartOf="@+id/light_background"
+                app:layout_constraintTop_toTopOf="@+id/light_background" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

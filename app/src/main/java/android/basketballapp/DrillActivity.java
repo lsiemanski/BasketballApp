@@ -50,6 +50,7 @@ public class DrillActivity extends AppCompatActivity {
                     intent.putExtra("playerId", getIntent().getIntExtra("playerId", 0));
                     intent.putExtra("numberOfShots", pickerValue);
                     startActivity(intent);
+                    finish();
                 }
             }
         });

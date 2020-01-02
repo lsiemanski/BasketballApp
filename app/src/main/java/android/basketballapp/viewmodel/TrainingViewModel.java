@@ -43,7 +43,7 @@ public class TrainingViewModel extends AndroidViewModel {
 
     public TrainingViewModel(@NonNull Application application, int drillId) {
         super(application);
-        application.getApplicationContext();
+        application.getApplicationContext(); //TODO czy to potrzebne?
         trainingRepository = new TrainingRepository(application);
         drillRepository = new DrillRepository(application);
         shotRepository = new ShotRepository(application);
@@ -119,18 +119,27 @@ public class TrainingViewModel extends AndroidViewModel {
         return numberOfShots == totalShots;
     }
 
-    public void saveTrainingData() {
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                int trainingId = (int) trainingRepository.insert(currentTraining);
+    public boolean hasAnyData() { return totalShots > 0; }
 
-                for(int i = 0; i < shotAndSpots.size(); i++) {
-                    shotAndSpots.get(i).shot.trainingId = trainingId;
-                    shotRepository.insert(shotAndSpots.get(i).shot);
+    public void saveTrainingData() {
+        if(totalShots > 0) {
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    currentTraining.totalMakes = totalMakes;
+                    currentTraining.totalShots = totalShots;
+
+                    int trainingId = (int) trainingRepository.insert(currentTraining);
+                    currentTraining.trainingId = trainingId;
+
+                    for(int i = 0; i < shotAndSpots.size(); i++) {
+                        shotAndSpots.get(i).shot.trainingId = trainingId;
+                        shotRepository.insert(shotAndSpots.get(i).shot);
+                    }
                 }
-            }
-        });
+            });
+
+        }
     }
 
     private void updateShotAndSpot(ShotAndSpot shotAndSpot, SpotAndResults spotAndResults) {
@@ -161,4 +170,9 @@ public class TrainingViewModel extends AndroidViewModel {
     public LiveData<DrillAndSpots> getDrillAndSpots() {
         return _drillAndSpots;
     }
+
+    public int getTrainingId() {
+        return currentTraining.trainingId;
+    }
+    public int getDrillId() { return currentTraining.drillId; }
 }

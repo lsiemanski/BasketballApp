@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.basketballapp.entity.DrillAndSpots;
 import android.basketballapp.entity.Shot;
 import android.basketballapp.entity.ShotAndSpot;
@@ -14,8 +16,10 @@ import android.basketballapp.viewmodel.factory.TrainingViewModelFactory;
 import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
 import android.graphics.drawable.shapes.Shape;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -38,7 +42,6 @@ public class TrainingActivity extends AppCompatActivity {
     private Button makeButton, missButton;
 
     private TrainingViewModel trainingViewModel;
-    TrainingAndShots trainingAndShots;
 
     private class SpotLayout {
         ImageView imageView;
@@ -64,7 +67,7 @@ public class TrainingActivity extends AppCompatActivity {
         int playerId = parentIntent.getIntExtra("playerId", 0);
         int numberOfShots = parentIntent.getIntExtra("numberOfShots", 0);
 
-        initViewModel(getIntent(), drillId);
+        initViewModel(drillId);
         initView();
 
         trainingViewModel.getDrillAndSpots().observe(this, new Observer<DrillAndSpots>() {
@@ -75,7 +78,7 @@ public class TrainingActivity extends AppCompatActivity {
         });
     }
 
-    private void initViewModel(Intent parentIntent, int drillId) {
+    private void initViewModel(int drillId) {
         trainingViewModel = ViewModelProviders.of(this, new TrainingViewModelFactory(this.getApplication(), drillId)).get(TrainingViewModel.class);
     }
 
@@ -106,13 +109,12 @@ public class TrainingActivity extends AppCompatActivity {
     }
 
     private void updateView(ShotAndSpot shotAndSpot, int current, int next) {
+        if(trainingViewModel.isOver())
+            saveAndStartSummary();
+
         updateTable(shotAndSpot);
         updateTextViews(shotAndSpot, current);
         updateSpotLayouts(current, next);
-
-        if(trainingViewModel.isOver())
-            trainingViewModel.saveTrainingData();
-
     }
 
     private void updateSpotLayouts(int current, int next) {
@@ -144,4 +146,51 @@ public class TrainingActivity extends AppCompatActivity {
         totalTextView.setText(shotAndSpot.shot.madeTotal + "/" + shotAndSpot.shot.takenTotal);
         reportTable.addView(row, 0);
     }
+
+    @Override
+    public void onBackPressed() {
+        if(trainingViewModel.hasAnyData()) {
+            saveAndStartSummary();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void saveAndStartSummary() {
+        Activity activity = this;
+
+        @SuppressLint("StaticFieldLeak") AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected void onPreExecute() {
+                trainingViewModel.saveTrainingData();
+            }
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                Intent trainingSummaryActivityStartIntent = new Intent(getApplicationContext(), TrainingSummaryActivity.class);
+                trainingSummaryActivityStartIntent.putExtra("trainingId", trainingViewModel.getTrainingId());
+                trainingSummaryActivityStartIntent.putExtra("drillId", trainingViewModel.getDrillId());
+                activity.startActivity(trainingSummaryActivityStartIntent);
+                activity.finish();
+            }
+        };
+
+        asyncTask.execute();
+    }
+
+
 }

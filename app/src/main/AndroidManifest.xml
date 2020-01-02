@@ -11,24 +11,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TrainingActivity"
+        <activity android:name=".TrainingSummaryActivity"></activity>
+        <activity
+            android:name=".TrainingActivity"
             android:parentActivityName=".DrillActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".DrillListActivity"
             android:label="Drills"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".DrillActivity"
             android:label="Drill"
             android:parentActivityName=".DrillListActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".InsertPlayerActivity"
             android:label="Add player"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:label="Players"
