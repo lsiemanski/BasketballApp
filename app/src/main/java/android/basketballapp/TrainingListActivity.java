@@ -1,0 +1,60 @@
+package android.basketballapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.basketballapp.adapter.TrainingListAdapter;
+import android.basketballapp.entity.Training;
+import android.basketballapp.viewmodel.TrainingListViewModel;
+import android.basketballapp.viewmodel.factory.TrainingListViewModelFactory;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import java.util.List;
+
+public class TrainingListActivity extends AppCompatActivity {
+
+    private TrainingListViewModel trainingListViewModel;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_training_list);
+
+        Intent parentIntent = getIntent();
+        int drillId = parentIntent.getIntExtra("drillId", 0);
+        int playerId = parentIntent.getIntExtra("playerId", 0);
+        String drillName = parentIntent.getStringExtra("drillName");
+
+        TextView drillNameTextView = findViewById(R.id.drill_name);
+        drillNameTextView.setText(drillName);
+
+        RecyclerView recyclerView = findViewById(R.id.trainings_recycler_view);
+        final TrainingListAdapter adapter = new TrainingListAdapter(this, drillId);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        trainingListViewModel = ViewModelProviders.of(this, new TrainingListViewModelFactory(this.getApplication(), drillId, playerId)).get(TrainingListViewModel.class);
+
+        trainingListViewModel.getTrainings().observe(this, new Observer<List<Training>>() {
+            @Override
+            public void onChanged(List<Training> trainings) {
+                adapter.setTrainings(trainings);
+            }
+        });
+
+        Button okButton = findViewById(R.id.ok);
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+}

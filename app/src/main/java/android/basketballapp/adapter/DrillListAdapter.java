@@ -2,6 +2,7 @@ package android.basketballapp.adapter;
 
 import android.basketballapp.DrillActivity;
 import android.basketballapp.R;
+import android.basketballapp.TrainingListActivity;
 import android.basketballapp.entity.Category;
 import android.basketballapp.entity.Drill;
 import android.basketballapp.entity.DrillAndCategory;
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.icu.util.ULocale;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +55,19 @@ public class DrillListAdapter extends RecyclerView.Adapter<DrillListAdapter.Dril
                     }
                 }
             });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Intent trainingListActivityIntent = new Intent(context, TrainingListActivity.class);
+                    trainingListActivityIntent.putExtra("drillId", drillId);
+                    trainingListActivityIntent.putExtra("playerId", playerId);
+                    trainingListActivityIntent.putExtra("drillName", drillNameView.getText());
+                    context.startActivity(trainingListActivityIntent);
+                    return false;
+                }
+            });
+
         }
     }
 

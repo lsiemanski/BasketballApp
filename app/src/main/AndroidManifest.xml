@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TrainingSummaryActivity"></activity>
+        <activity android:name=".TrainingListActivity"></activity>
+        <activity android:name=".TrainingSummaryActivity" />
         <activity
             android:name=".TrainingActivity"
             android:parentActivityName=".DrillActivity"

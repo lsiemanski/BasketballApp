@@ -8,6 +8,8 @@ import android.basketballapp.entity.TrainingAndShots;
 
 import androidx.lifecycle.LiveData;
 
+import java.util.List;
+
 public class TrainingRepository {
     private TrainingDao trainingDao;
 
@@ -22,5 +24,9 @@ public class TrainingRepository {
 
     public LiveData<TrainingAndShots> getTrainingAndShots(int id) {
         return trainingDao.getTrainingAndShots(id);
+    }
+
+    public LiveData<List<Training>> getTrainings(int drillId, int playerId) {
+        return trainingDao.getTrainings(drillId, playerId);
     }
 }
