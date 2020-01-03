@@ -4,13 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
+import android.basketballapp.adapter.TrainingSummaryListAdapter;
 import android.basketballapp.entity.DrillAndSpots;
 import android.basketballapp.entity.ShotAndSpot;
 import android.basketballapp.entity.TrainingAndShots;
 import android.basketballapp.viewmodel.TrainingSummaryViewModel;
-import android.basketballapp.viewmodel.TrainingViewModel;
 import android.basketballapp.viewmodel.factory.TrainingSummaryViewModelFactory;
 import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
@@ -27,9 +28,9 @@ public class TrainingSummaryActivity extends AppCompatActivity {
 
     private TrainingSummaryViewModel trainingSummaryViewModel;
 
-    private TableLayout reportTable;
     private SpotLayout[] spotLayouts;
     private Button okButton;
+    private RecyclerView trainingSummaryRecyclerView;
 
     private class SpotLayout {
         ImageView imageView;
@@ -55,6 +56,9 @@ public class TrainingSummaryActivity extends AppCompatActivity {
         int drillId = parentIntent.getIntExtra("drillId", 0);
 
         initView();
+        final TrainingSummaryListAdapter adapter = new TrainingSummaryListAdapter(this);
+        trainingSummaryRecyclerView.setAdapter(adapter);
+        trainingSummaryRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         trainingSummaryViewModel = ViewModelProviders.of(this, new TrainingSummaryViewModelFactory(this.getApplication(), trainingId, drillId)).get(TrainingSummaryViewModel.class);
 
@@ -66,9 +70,7 @@ public class TrainingSummaryActivity extends AppCompatActivity {
                     @Override
                     public void onChanged(TrainingAndShots trainingAndShots) {
                         trainingSummaryViewModel.countMakesAndMisses();
-                        while(trainingSummaryViewModel.isShotsRemaining()) {
-                            updateTable(trainingSummaryViewModel.getNextShotAndSpot());
-                        }
+                        adapter.setShots(trainingSummaryViewModel.getShotAndSpots());
 
                         updateSpotLayouts();
                     }
@@ -86,7 +88,7 @@ public class TrainingSummaryActivity extends AppCompatActivity {
 
         spotLayouts = new SpotLayout[] {spotLayout1, spotLayout5, spotLayout4, spotLayout2, spotLayout3};
 
-        reportTable = findViewById(R.id.report_table);
+        trainingSummaryRecyclerView = findViewById(R.id.training_summary_recycler_view);
 
         okButton = findViewById(R.id.ok);
 
@@ -108,24 +110,4 @@ public class TrainingSummaryActivity extends AppCompatActivity {
         spotLayouts[index].textView.setText(made + "/" + taken);
     }
 
-    private void updateTable(ShotAndSpot shotAndSpot) {
-        LayoutInflater inflater = getLayoutInflater();
-        TableRow row = (TableRow) inflater.inflate(R.layout.shot_table_row, null);
-        TextView positionTextView = row.findViewById(R.id.shot_table_position);
-        TextView resultTextView = row.findViewById(R.id.shot_table_result);
-        TextView spotTextView = row.findViewById(R.id.shot_table_spot);
-        TextView totalTextView = row.findViewById(R.id.shot_table_total);
-        positionTextView.setText(shotAndSpot.spot.description);
-        if(shotAndSpot.shot.isMade) {
-            resultTextView.setText("MAKE");
-            resultTextView.setTextColor(getResources().getColor(R.color.green_spot_dark, getTheme()));
-        } else {
-            resultTextView.setText("MISS");
-            resultTextView.setTextColor(getResources().getColor(R.color.red_spot_dark, getTheme()));
-        }
-
-        spotTextView.setText(shotAndSpot.shot.madeFromSpot + "/" + shotAndSpot.shot.takenFromSpot);
-        totalTextView.setText(shotAndSpot.shot.madeTotal + "/" + shotAndSpot.shot.takenTotal);
-        reportTable.addView(row, 0);
-    }
 }

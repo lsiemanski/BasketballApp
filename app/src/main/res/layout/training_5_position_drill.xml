@@ -56,18 +56,12 @@
 
             </TableRow>
 
-            <ScrollView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/training_summary_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="310dp">
+                android:layout_height="wrap_content">
 
-                <TableLayout
-                    android:id="@+id/report_table"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-
-                </TableLayout>
-
-            </ScrollView>
+            </androidx.recyclerview.widget.RecyclerView>
 
         </TableLayout>
 

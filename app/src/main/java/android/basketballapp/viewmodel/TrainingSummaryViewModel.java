@@ -15,6 +15,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TrainingSummaryViewModel extends AndroidViewModel {
@@ -30,8 +31,6 @@ public class TrainingSummaryViewModel extends AndroidViewModel {
 
     private List<SpotAndResults> spotAndResults;
     private List<ShotAndSpot> shotAndSpots;
-
-    private int shotsTakenByView = 0;
 
     class SpotAndResults {
         Spot spot;
@@ -93,14 +92,8 @@ public class TrainingSummaryViewModel extends AndroidViewModel {
             shotAndSpot.shot.madeFromSpot = currentSpotAndResults.made;
             shotAndSpot.shot.takenFromSpot = currentSpotAndResults.taken;
         }
-    }
 
-    public boolean isShotsRemaining() {
-        return shotsTakenByView < shotAndSpots.size();
-    }
-
-    public ShotAndSpot getNextShotAndSpot() {
-        return shotAndSpots.get(shotsTakenByView++);
+        Collections.reverse(shotAndSpots);
     }
 
     public int getMadeFromSpot(int index) {
@@ -147,4 +140,6 @@ public class TrainingSummaryViewModel extends AndroidViewModel {
     public LiveData<TrainingAndShots> getTrainingAndShots() {
         return _trainingAndShots;
     }
+
+    public List<ShotAndSpot> getShotAndSpots() { return shotAndSpots; }
 }

@@ -3,43 +3,36 @@ package android.basketballapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.basketballapp.adapter.TrainingSummaryListAdapter;
 import android.basketballapp.entity.DrillAndSpots;
-import android.basketballapp.entity.Shot;
 import android.basketballapp.entity.ShotAndSpot;
-import android.basketballapp.entity.Spot;
-import android.basketballapp.entity.TrainingAndShots;
 import android.basketballapp.viewmodel.TrainingViewModel;
 import android.basketballapp.viewmodel.factory.TrainingViewModelFactory;
 import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
-import android.graphics.drawable.shapes.Shape;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class TrainingActivity extends AppCompatActivity {
 
     private static final int TRANSITION_TIME = 200;
 
-    private TableLayout reportTable;
     private SpotLayout[] spotLayouts;
     private Button makeButton, missButton;
+    private RecyclerView trainingSummaryRecyclerView;
+    private TrainingSummaryListAdapter adapter;
 
     private TrainingViewModel trainingViewModel;
 
@@ -70,6 +63,10 @@ public class TrainingActivity extends AppCompatActivity {
         initViewModel(drillId);
         initView();
 
+        adapter = new TrainingSummaryListAdapter(this);
+        trainingSummaryRecyclerView.setAdapter(adapter);
+        trainingSummaryRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         trainingViewModel.getDrillAndSpots().observe(this, new Observer<DrillAndSpots>() {
             @Override
             public void onChanged(DrillAndSpots drillAndSpots) {
@@ -92,7 +89,7 @@ public class TrainingActivity extends AppCompatActivity {
         spotLayouts = new SpotLayout[] {spotLayout1, spotLayout5, spotLayout4, spotLayout2, spotLayout3};
         spotLayouts[0].getDrawable().startTransition(TRANSITION_TIME);
 
-        reportTable = findViewById(R.id.report_table);
+        trainingSummaryRecyclerView = findViewById(R.id.training_summary_recycler_view);
 
         makeButton = findViewById(R.id.make);
         missButton = findViewById(R.id.miss);
@@ -112,7 +109,7 @@ public class TrainingActivity extends AppCompatActivity {
         if(trainingViewModel.isOver())
             saveAndStartSummary();
 
-        updateTable(shotAndSpot);
+        adapter.addShot(shotAndSpot);
         updateTextViews(shotAndSpot, current);
         updateSpotLayouts(current, next);
     }
@@ -124,27 +121,6 @@ public class TrainingActivity extends AppCompatActivity {
 
     private void updateTextViews(ShotAndSpot shotAndSpot, int current) {
         spotLayouts[current].textView.setText(shotAndSpot.shot.madeFromSpot + "/" + shotAndSpot.shot.takenFromSpot);
-    }
-
-    private void updateTable(ShotAndSpot shotAndSpot) {
-        LayoutInflater inflater = getLayoutInflater();
-        TableRow row = (TableRow) inflater.inflate(R.layout.shot_table_row, null);
-        TextView positionTextView = row.findViewById(R.id.shot_table_position);
-        TextView resultTextView = row.findViewById(R.id.shot_table_result);
-        TextView spotTextView = row.findViewById(R.id.shot_table_spot);
-        TextView totalTextView = row.findViewById(R.id.shot_table_total);
-        positionTextView.setText(shotAndSpot.spot.description);
-        if(shotAndSpot.shot.isMade) {
-            resultTextView.setText("MAKE");
-            resultTextView.setTextColor(getResources().getColor(R.color.green_spot_dark, getTheme()));
-        } else {
-            resultTextView.setText("MISS");
-            resultTextView.setTextColor(getResources().getColor(R.color.red_spot_dark, getTheme()));
-        }
-
-        spotTextView.setText(shotAndSpot.shot.madeFromSpot + "/" + shotAndSpot.shot.takenFromSpot);
-        totalTextView.setText(shotAndSpot.shot.madeTotal + "/" + shotAndSpot.shot.takenTotal);
-        reportTable.addView(row, 0);
     }
 
     @Override

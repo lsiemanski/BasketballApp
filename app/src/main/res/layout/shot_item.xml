@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/shot_table_row">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:id="@+id/shot_item">
 
     <TextView
-        android:id="@+id/shot_table_position"
+        android:id="@+id/shot_item_position"
         android:layout_height="40dp"
         android:layout_width="150dp"
         android:text="Position"
@@ -12,7 +15,7 @@
         android:textColor="@color/light_brown_panel"/>
 
     <TextView
-        android:id="@+id/shot_table_result"
+        android:id="@+id/shot_item_result"
         android:layout_height="40dp"
         android:layout_width="80dp"
         android:text="Result"
@@ -22,7 +25,7 @@
         android:textColor="@color/light_brown_panel"/>
 
     <TextView
-        android:id="@+id/shot_table_spot"
+        android:id="@+id/shot_item_spot"
         android:layout_height="40dp"
         android:layout_width="80dp"
         android:text="Spot"
@@ -31,7 +34,7 @@
         android:textColor="@color/light_brown_panel"/>
 
     <TextView
-        android:id="@+id/shot_table_total"
+        android:id="@+id/shot_item_total"
         android:layout_height="40dp"
         android:layout_width="100dp"
         android:text="Total"
@@ -39,4 +42,4 @@
         android:textAlignment="center"
         android:textColor="@color/light_brown_panel"/>
 
-</TableRow>
+</LinearLayout>
