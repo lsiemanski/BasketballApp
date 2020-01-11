@@ -56,5 +56,14 @@ public class TrainingListActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        Button progressChartButton = findViewById(R.id.progress_chart_button);
+        progressChartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startProgressChartActivity = new Intent(getApplicationContext(), ProgressChartActivity.class);
+                startActivity(startProgressChartActivity);
+            }
+        });
     }
 }

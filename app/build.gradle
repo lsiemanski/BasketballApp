@@ -45,4 +45,7 @@ dependencies {
 
     // Testing
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"
+
+    // AnyChart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

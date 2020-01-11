@@ -55,7 +55,7 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
     public void onBindViewHolder(@NonNull TrainingViewHolder holder, int position) {
         if(trainings != null) {
             Training current = trainings.get(position);
-            holder.dateTextView.setText(new SimpleDateFormat("dd.MM.yyyy").format(current.date));
+            holder.dateTextView.setText(new SimpleDateFormat("dd-MM-yyyy").format(current.date));
             holder.totalTextView.setText(current.totalMakes + "/" + current.totalShots);
             holder.trainingId = current.trainingId;
         }
