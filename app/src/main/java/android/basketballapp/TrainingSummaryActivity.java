@@ -14,6 +14,11 @@ import android.basketballapp.entity.TrainingAndShots;
 import android.basketballapp.viewmodel.TrainingSummaryViewModel;
 import android.basketballapp.viewmodel.factory.TrainingSummaryViewModelFactory;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -108,6 +113,19 @@ public class TrainingSummaryActivity extends AppCompatActivity {
 
     private void updateSpotLayout(int index, int made, int taken) {
         spotLayouts[index].textView.setText(made + "/" + taken);
+        spotLayouts[index].imageView.setImageDrawable(getColorDrawable((float) made/taken));
+    }
+
+    private Drawable getColorDrawable(float percent) {
+        System.out.println(percent);
+        Resources resources = getResources();
+        if(percent <= 0.21)
+            return resources.getDrawable(R.drawable.spot_red, getTheme());
+        if(percent <= 0.31)
+            return resources.getDrawable(R.drawable.spot_yellow, getTheme());
+        if(percent <= 0.41)
+            return resources.getDrawable(R.drawable.spot_light_green, getTheme());
+        return resources.getDrawable(R.drawable.spot_green, getTheme());
     }
 
 }

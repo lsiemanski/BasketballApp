@@ -9,4 +9,6 @@
     <color name="red_spot_dark">#D60000</color>
     <color name="green_spot_light">#06B500</color>
     <color name="green_spot_dark">#058A00</color>
+    <color name="spot_yellow">#FFFF00</color>
+    <color name="spot_green_light">#00FF00</color>
 </resources>
