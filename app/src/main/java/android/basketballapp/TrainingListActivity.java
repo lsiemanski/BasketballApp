@@ -62,6 +62,8 @@ public class TrainingListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent startProgressChartActivity = new Intent(getApplicationContext(), ProgressChartActivity.class);
+                startProgressChartActivity.putExtra("drillId", drillId);
+                startProgressChartActivity.putExtra("playerId", playerId);
                 startActivity(startProgressChartActivity);
             }
         });
