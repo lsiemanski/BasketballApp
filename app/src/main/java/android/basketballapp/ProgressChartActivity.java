@@ -92,13 +92,13 @@ public class ProgressChartActivity extends AppCompatActivity {
         for(int i = 0; i < trainings.size(); i++) {
             Training training = trainings.get(i);
             entries.add(new Entry(i, (float)training.totalMakes/training.totalShots));
-            dates[i] = (new SimpleDateFormat("dd-MM-yy").format(training.date));
+            dates[i] = (new SimpleDateFormat("dd-MM-yy").format(training.date)); //TODO export date format to some resource variable
         }
 
         IndexAxisValueFormatter formatter = new IndexAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
-                if(value == Math.round(value))
+                if(value >= 0 && value == Math.round(value))
                     return getValues()[(int)value];
                 return "";
             }
@@ -106,7 +106,7 @@ public class ProgressChartActivity extends AppCompatActivity {
         formatter.setValues(dates);
         chart.getXAxis().setValueFormatter(formatter);
 
-        LineDataSet dataSet = new LineDataSet(entries, "MAKE%");
+        LineDataSet dataSet = new LineDataSet(entries, "MAKE%"); // TODO export MAKE% string to resources
         configureDataSet(dataSet);
 
         chart.setData(new LineData(dataSet));

@@ -13,12 +13,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".ProgressChartActivity"></activity>
-        <activity android:name=".TrainingListActivity" />
-        <activity android:name=".TrainingSummaryActivity" />
+        <activity
+            android:name=".ProgressChartActivity"
+            android:label="Progress chart" />
+        <activity
+            android:name=".TrainingListActivity"
+            android:label="Trainings"
+            android:parentActivityName=".DrillListActivity"/>
+        <activity
+            android:name=".TrainingSummaryActivity"
+            android:label="Training summary"/>
         <activity
             android:name=".TrainingActivity"
             android:parentActivityName=".DrillActivity"
+            android:label="Training"
             android:screenOrientation="portrait" />
         <activity
             android:name=".DrillListActivity"

@@ -1,6 +1,6 @@
 body {
     background-image: url("floor_dark.png");
-    background-repeat: repeat-y;
+    background-repeat: repeat;
     color: #E0BB84;
     text-align: justify;
     font-family: 'Lato', sans-serif;
@@ -9,10 +9,11 @@ body {
 h2 {
     color: #FFC609;
     text-shadow: 2px 2px #000000;
+    font-size: 1.6em;
 }
 
 p, ul {
-    font-size: 120%;
+    font-size: 1.2em;
 }
 
 iframe {

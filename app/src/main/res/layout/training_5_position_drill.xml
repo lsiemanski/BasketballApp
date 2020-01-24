@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <include android:id="@+id/drill_5_position_shooting" layout="@layout/drill_5_position_shooting"/>
+    <include android:id="@+id/drill_5_position_shooting"
+        layout="@layout/drill_5_position_shooting"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@drawable/double_floor_dark">
 
@@ -23,6 +25,7 @@
                     android:layout_width="150dp"
                     android:text="Position"
                     android:textSize="25dp"
+                    android:layout_weight="35"
                     android:textStyle="bold"
                     android:textAlignment="center"
                     android:textColor="@color/light_brown_panel"/>
@@ -32,6 +35,7 @@
                     android:layout_width="80dp"
                     android:text="Result"
                     android:textSize="25dp"
+                    android:layout_weight="20"
                     android:textStyle="bold"
                     android:textAlignment="center"
                     android:textColor="@color/light_brown_panel"/>
@@ -41,6 +45,7 @@
                     android:layout_width="80dp"
                     android:text="Spot"
                     android:textSize="25dp"
+                    android:layout_weight="20"
                     android:textStyle="bold"
                     android:textAlignment="center"
                     android:textColor="@color/light_brown_panel"/>
@@ -50,6 +55,7 @@
                     android:layout_width="100dp"
                     android:text="Total"
                     android:textSize="25dp"
+                    android:layout_weight="25"
                     android:textStyle="bold"
                     android:textAlignment="center"
                     android:textColor="@color/light_brown_panel"/>

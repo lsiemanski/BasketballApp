@@ -5,58 +5,8 @@
     android:id="@+id/web_view_constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/dark_background_repeat"
     tools:context=".DrillActivity">
-
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="8dp"-->
-        <!--android:text="DUPA"-->
-        <!--app:layout_constraintTop_toTopOf="parent" />-->
-
-    <LinearLayout
-        android:id="@+id/web_view_linear_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
-
-        <ImageView
-            android:id="@+id/background_dark_one"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/floor_dark"
-            android:contentDescription=""
-            android:scaleType="centerCrop" />
-
-        <ImageView
-            android:id="@+id/background_dark_two"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/floor_dark"
-            android:contentDescription=""
-            android:scaleType="centerCrop" />
-
-        <ImageView
-            android:id="@+id/background_dark_three"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/floor_dark"
-            android:contentDescription=""
-            android:scaleType="centerCrop" />
-
-        <ImageView
-            android:id="@+id/background_dark_four"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/floor_dark"
-            android:contentDescription=""
-            android:scaleType="centerCrop" />
-
-    </LinearLayout>
 
     <WebView
         android:id="@+id/web_view"
@@ -65,22 +15,6 @@
         android:background="@drawable/floor_dark"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginBottom="70dp" />
-
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="vertical"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent">-->
-
-        <!--<Button-->
-            <!--android:id="@+id/example_button"-->
-            <!--app:layout_constraintTop_toBottomOf="parent"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="ddddddddddddddddd"-->
-            <!--app:layout_constraintBottom_toBottomOf="parent"/>-->
-
-    <!--</LinearLayout>-->
 
 
     <ImageView
@@ -92,68 +26,55 @@
         android:src="@drawable/floor_light"
         app:layout_constraintBottom_toBottomOf="parent" />
 
-    <Button
-        android:id="@+id/start_training"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="70dp"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/floor_dark"
-        android:text="START"
-        android:textColor="#E0BB84"
-        android:textSize="18dp"
-        app:layout_constraintBottom_toBottomOf="@+id/light_background"
-        app:layout_constraintEnd_toEndOf="@+id/light_background" />
-
     <LinearLayout
-        android:layout_width="150dp"
+        android:id="@+id/linearLayout"
+        android:layout_width="270dp"
         android:layout_height="40dp"
-        android:layout_marginStart="45dp"
         android:layout_marginBottom="15dp"
         app:layout_constraintBottom_toBottomOf="@+id/light_background"
+        app:layout_constraintEnd_toEndOf="@+id/light_background"
         app:layout_constraintStart_toStartOf="@+id/light_background">
 
         <Button
             android:id="@+id/minus"
             android:layout_width="50dp"
-            android:layout_height="40dp"
+            android:layout_height="match_parent"
             android:background="@drawable/floor_dark"
+            android:text="-"
             android:textColor="#E0BB84"
-            android:textSize="25dp"
-            android:text="-" />
-
-        <!--<TextView-->
-            <!--android:id="@+id/picker"-->
-            <!--android:layout_width="50dp"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:text="10"-->
-            <!--android:textAlignment="center"-->
-            <!--android:textColor="@color/black"-->
-            <!--android:textSize="20dp"-->
-            <!--android:textStyle="bold" />-->
+            android:textSize="25dp" />
 
         <android.basketballapp.utils.BlockedCursorEditText
             android:id="@+id/picker"
             android:layout_width="50dp"
-            android:layout_height="40dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:cursorVisible="false"
             android:inputType="number"
             android:text="10"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="20dp"
-            android:textStyle="bold"
-            android:cursorVisible="false"
-            android:background="@android:color/transparent"
-            />
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/plus"
             android:layout_width="50dp"
-            android:layout_height="40dp"
+            android:layout_height="match_parent"
             android:background="@drawable/floor_dark"
+            android:text="+"
             android:textColor="#E0BB84"
-            android:textSize="25dp"
-            android:text="+" />
+            android:textSize="25dp" />
+
+        <Button
+            android:id="@+id/start_training"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/floor_dark"
+            android:text="START"
+            android:textColor="#E0BB84"
+            android:textSize="18dp" />
 
     </LinearLayout>
 

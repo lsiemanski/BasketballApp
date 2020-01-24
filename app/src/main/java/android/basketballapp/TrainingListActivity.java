@@ -15,12 +15,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 public class TrainingListActivity extends AppCompatActivity {
 
     private TrainingListViewModel trainingListViewModel;
+    private TrainingListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,7 @@ public class TrainingListActivity extends AppCompatActivity {
         drillNameTextView.setText(drillName);
 
         RecyclerView recyclerView = findViewById(R.id.trainings_recycler_view);
-        final TrainingListAdapter adapter = new TrainingListAdapter(this, drillId);
+        adapter = new TrainingListAdapter(this, drillId);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -61,10 +63,14 @@ public class TrainingListActivity extends AppCompatActivity {
         progressChartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startProgressChartActivity = new Intent(getApplicationContext(), ProgressChartActivity.class);
-                startProgressChartActivity.putExtra("drillId", drillId);
-                startProgressChartActivity.putExtra("playerId", playerId);
-                startActivity(startProgressChartActivity);
+                if(adapter.getItemCount() < 2) {
+                    Toast.makeText(getApplicationContext(), "Progress chart not available! You need to have at least 2 trainings to generate progress chart.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent startProgressChartActivity = new Intent(getApplicationContext(), ProgressChartActivity.class);
+                    startProgressChartActivity.putExtra("drillId", drillId);
+                    startProgressChartActivity.putExtra("playerId", playerId);
+                    startActivity(startProgressChartActivity);
+                }
             }
         });
     }
