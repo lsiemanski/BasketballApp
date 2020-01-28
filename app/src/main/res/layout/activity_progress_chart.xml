@@ -1,77 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProgressChartActivity">
+    android:background="@drawable/light_background_repeat"
+    tools:context=".ProgressChartActivity"
+    android:orientation="vertical"
+    android:weightSum="100"
+    app:layout_constraintTop_toTopOf="parent">
 
-    <LinearLayout
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/line_chart"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_marginEnd="10dp"
+        android:layout_weight="45"/>
+
+    <TableLayout
+        android:id="@+id/header_table"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="53"
+        android:visibility="gone"
+        android:background="@drawable/dark_background_repeat" >
+
+        <TableRow>
+
+            <TextView
+                android:layout_height="40dp"
+                android:layout_width="150dp"
+                android:text="Position"
+                android:textSize="25dp"
+                android:layout_weight="35"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textColor="@color/light_brown_panel"/>
+
+            <TextView
+                android:layout_height="40dp"
+                android:layout_width="80dp"
+                android:text="Result"
+                android:textSize="25dp"
+                android:layout_weight="20"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textColor="@color/light_brown_panel"/>
+
+            <TextView
+                android:layout_height="40dp"
+                android:layout_width="80dp"
+                android:text="Spot"
+                android:textSize="25dp"
+                android:layout_weight="20"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textColor="@color/light_brown_panel"/>
+
+            <TextView
+                android:layout_height="40dp"
+                android:layout_width="100dp"
+                android:text="Total"
+                android:textSize="25dp"
+                android:layout_weight="25"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textColor="@color/light_brown_panel"/>
+
+        </TableRow>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/training_summary_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/no_data_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="53"
+        android:gravity="center"
+        android:background="@drawable/dark_background_repeat"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:textColor="@color/light_brown_panel"
+        android:text="Select training from chart to see its summary" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/light_background"
+        android:background="@drawable/floor_light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="vertical">
+        android:layout_weight="2">
 
-        <ImageView
-            android:id="@+id/background_light_one"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/floor_light"
-            android:contentDescription=""
-            android:scaleType="centerCrop"/>
-
-        <ImageView
-            android:id="@+id/background_light_two"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/floor_light"
-            android:contentDescription=""
-            android:scaleType="centerCrop"/>
-
-        <ImageView
-            android:id="@+id/background_light_three"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/floor_light"
-            android:contentDescription=""
-            android:scaleType="centerCrop" />
-
-        <ImageView
-            android:id="@+id/background_light_four"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/floor_light"
-            android:contentDescription=""
-            android:scaleType="centerCrop"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/line_chart"
-            android:layout_height="0dp"
-            android:layout_width="match_parent"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="5"/>
-
-        <com.github.mikephil.charting.charts.RadarChart
-            android:id="@+id/radar_chart"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-    </LinearLayout>
+        <Button
+            android:id="@+id/ok"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/floor_dark"
+            android:text="OK"
+            android:textColor="#E0BB84"
+            android:textSize="22dp"
+            app:layout_constraintBottom_toBottomOf="@+id/light_background"
+            app:layout_constraintEnd_toEndOf="@+id/light_background"
+            app:layout_constraintStart_toStartOf="@+id/light_background"
+            app:layout_constraintTop_toTopOf="@+id/light_background" />
 
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -1,15 +1,30 @@
 package android.basketballapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.app.Application;
+import android.basketballapp.adapter.TrainingSummaryListAdapter;
+import android.basketballapp.entity.DrillAndSpots;
 import android.basketballapp.entity.Training;
+import android.basketballapp.entity.TrainingAndShots;
 import android.basketballapp.viewmodel.TrainingListViewModel;
+import android.basketballapp.viewmodel.TrainingSummaryViewModel;
 import android.basketballapp.viewmodel.factory.TrainingListViewModelFactory;
+import android.basketballapp.viewmodel.factory.TrainingSummaryViewModelFactory;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TableLayout;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.RadarChart;
@@ -34,11 +49,38 @@ import java.util.List;
 public class ProgressChartActivity extends AppCompatActivity {
 
     TrainingListViewModel trainingListViewModel;
+    TrainingSummaryListAdapter adapter;
+    TableLayout tableLayout;
+    RecyclerView recyclerView;
+    TextView noDataTextView;
+    List<Training> trainingList;
+    Application application;
+    FragmentActivity fragmentActivity;
+    TrainingSummaryViewModel trainingSummaryViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progress_chart);
+
+        fragmentActivity = this;
+        application = this.getApplication();
+        recyclerView = findViewById(R.id.training_summary_recycler_view);
+        noDataTextView = findViewById(R.id.no_data_text_view);
+        tableLayout = findViewById(R.id.header_table);
+
+        Button okButton = findViewById(R.id.ok);
+
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        adapter = new TrainingSummaryListAdapter(this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         Intent parentIntent = getIntent();
         int drillId = parentIntent.getIntExtra("drillId", 0);
@@ -51,6 +93,7 @@ public class ProgressChartActivity extends AppCompatActivity {
         trainingListViewModel.getTrainings().observe(this, new Observer<List<Training>>() {
             @Override
             public void onChanged(List<Training> trainings) {
+                trainingList = trainings;
                 setTrainings(chart, trainings);
             }
         });
@@ -74,12 +117,31 @@ public class ProgressChartActivity extends AppCompatActivity {
         chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                System.out.println(e.getX() + " " + e.getY());
+                noDataTextView.setVisibility(View.GONE);
+                tableLayout.setVisibility(View.VISIBLE);
+
+                int entryX = (int)e.getX();
+                Training training = trainingList.get(entryX);
+
+                trainingSummaryViewModel = new TrainingSummaryViewModel(application, training.trainingId, drillId);
+                trainingSummaryViewModel.getDrillAndSpots().observe(fragmentActivity, new Observer<DrillAndSpots>() {
+                    @Override
+                    public void onChanged(DrillAndSpots drillAndSpots) {
+                        trainingSummaryViewModel.getTrainingAndShots().observe(fragmentActivity, new Observer<TrainingAndShots>() {
+                            @Override
+                            public void onChanged(TrainingAndShots trainingAndShots) {
+                                trainingSummaryViewModel.countMakesAndMisses();
+                                adapter.setShots(trainingSummaryViewModel.getShotAndSpots());
+                            }
+                        });
+                    }
+                });
             }
 
             @Override
             public void onNothingSelected() {
-
+                noDataTextView.setVisibility(View.VISIBLE);
+                tableLayout.setVisibility(View.GONE);
             }
         });
     }
@@ -117,6 +179,7 @@ public class ProgressChartActivity extends AppCompatActivity {
         dataSet.setCircleColor(Color.RED);
         dataSet.setCircleRadius(8f);
         dataSet.setLineWidth(3f);
+        dataSet.setValueTextSize(12f);
 
         ValueFormatter valueFormatter = new DefaultValueFormatter(2);
         dataSet.setValueFormatter(valueFormatter);
