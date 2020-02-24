@@ -14,7 +14,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -32,14 +31,11 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
             totalTextView = itemView.findViewById(R.id.training_item_total);
             selectButton = itemView.findViewById(R.id.select_button);
 
-            selectButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent trainingSummaryActivityIntent = new Intent(context, TrainingSummaryActivity.class);
-                    trainingSummaryActivityIntent.putExtra("trainingId", trainingId);
-                    trainingSummaryActivityIntent.putExtra("drillId", drillId);
-                    context.startActivity(trainingSummaryActivityIntent);
-                }
+            selectButton.setOnClickListener(v -> {
+                Intent trainingSummaryActivityIntent = new Intent(context, TrainingSummaryActivity.class);
+                trainingSummaryActivityIntent.putExtra("trainingId", trainingId);
+                trainingSummaryActivityIntent.putExtra("drillId", drillId);
+                context.startActivity(trainingSummaryActivityIntent);
             });
         }
     }

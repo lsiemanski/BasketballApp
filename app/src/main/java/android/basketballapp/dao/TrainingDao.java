@@ -1,6 +1,5 @@
 package android.basketballapp.dao;
 
-import android.basketballapp.entity.Drill;
 import android.basketballapp.entity.Training;
 import android.basketballapp.entity.TrainingAndShots;
 

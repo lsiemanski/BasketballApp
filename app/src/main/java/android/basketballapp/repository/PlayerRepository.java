@@ -24,8 +24,6 @@ public class PlayerRepository {
     }
 
     public void insert(Player player) {
-        BasketballAppRoomDatabase.databaseWriterExecutor.execute(() -> {
-            playerDao.insert(player);
-        });
+        playerDao.insert(player);
     }
 }

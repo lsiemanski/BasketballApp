@@ -3,7 +3,6 @@ package android.basketballapp.dao;
 import android.basketballapp.entity.Drill;
 import android.basketballapp.entity.DrillAndCategory;
 import android.basketballapp.entity.DrillAndSpots;
-import android.basketballapp.entity.Spot;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -33,7 +32,4 @@ public interface DrillDao {
 
     @Query("SELECT * FROM drills WHERE drill_id=:id")
     Drill getDrill(int id);
-
-//    @Query("SELECT * FROM spots WHERE drillId=:drillId")
-//    List<Spot> getSpotsForDrill(int drillId);
 }

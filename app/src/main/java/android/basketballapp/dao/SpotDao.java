@@ -3,7 +3,6 @@ package android.basketballapp.dao;
 import android.basketballapp.entity.Spot;
 
 import androidx.room.Dao;
-import androidx.room.Ignore;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;

@@ -1,23 +1,17 @@
 package android.basketballapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.app.Application;
 import android.basketballapp.adapter.TrainingSummaryListAdapter;
-import android.basketballapp.entity.DrillAndSpots;
 import android.basketballapp.entity.Training;
-import android.basketballapp.entity.TrainingAndShots;
 import android.basketballapp.viewmodel.TrainingListViewModel;
 import android.basketballapp.viewmodel.TrainingSummaryViewModel;
 import android.basketballapp.viewmodel.factory.TrainingListViewModelFactory;
-import android.basketballapp.viewmodel.factory.TrainingSummaryViewModelFactory;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -27,14 +21,10 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.charts.RadarChart;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.DefaultValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
@@ -71,12 +61,7 @@ public class ProgressChartActivity extends AppCompatActivity {
 
         Button okButton = findViewById(R.id.ok);
 
-        okButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        okButton.setOnClickListener(v -> finish());
 
         adapter = new TrainingSummaryListAdapter(this);
         recyclerView.setAdapter(adapter);
@@ -88,14 +73,13 @@ public class ProgressChartActivity extends AppCompatActivity {
 
         LineChart chart = findViewById(R.id.line_chart);
 
-        trainingListViewModel = ViewModelProviders.of(this, new TrainingListViewModelFactory(this.getApplication(), drillId, playerId)).get(TrainingListViewModel.class);
+        trainingListViewModel = ViewModelProviders.of(this,
+                new TrainingListViewModelFactory(this.getApplication(), drillId, playerId))
+                .get(TrainingListViewModel.class);
 
-        trainingListViewModel.getTrainings().observe(this, new Observer<List<Training>>() {
-            @Override
-            public void onChanged(List<Training> trainings) {
-                trainingList = trainings;
-                setTrainings(chart, trainings);
-            }
+        trainingListViewModel.getTrainings().observe(this, trainings ->  {
+            trainingList = trainings;
+            setTrainings(chart, trainings);
         });
 
         chart.getAxisRight().setEnabled(false);
@@ -124,18 +108,12 @@ public class ProgressChartActivity extends AppCompatActivity {
                 Training training = trainingList.get(entryX);
 
                 trainingSummaryViewModel = new TrainingSummaryViewModel(application, training.trainingId, drillId);
-                trainingSummaryViewModel.getDrillAndSpots().observe(fragmentActivity, new Observer<DrillAndSpots>() {
-                    @Override
-                    public void onChanged(DrillAndSpots drillAndSpots) {
-                        trainingSummaryViewModel.getTrainingAndShots().observe(fragmentActivity, new Observer<TrainingAndShots>() {
-                            @Override
-                            public void onChanged(TrainingAndShots trainingAndShots) {
-                                trainingSummaryViewModel.countMakesAndMisses();
-                                adapter.setShots(trainingSummaryViewModel.getShotAndSpots());
-                            }
-                        });
-                    }
-                });
+                trainingSummaryViewModel.getDrillAndSpots().observe(fragmentActivity, drillAndSpots ->
+                    trainingSummaryViewModel.getTrainingAndShots().observe(fragmentActivity, trainingAndShots -> {
+                        trainingSummaryViewModel.countMakesAndMisses();
+                        adapter.setShots(trainingSummaryViewModel.getShotAndSpots());
+                    })
+                );
             }
 
             @Override

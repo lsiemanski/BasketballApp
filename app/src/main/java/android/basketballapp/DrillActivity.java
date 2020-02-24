@@ -1,23 +1,16 @@
 package android.basketballapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintSet;
 
-import android.basketballapp.entity.Training;
 import android.basketballapp.utils.BlockedCursorEditText;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.material.textfield.TextInputEditText;
 
 public class DrillActivity extends AppCompatActivity {
 
@@ -42,16 +35,13 @@ public class DrillActivity extends AppCompatActivity {
 
         Button startButton = findViewById(R.id.start_training);
         Intent intent = new Intent(this, TrainingActivity.class);
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(pickerValue > 0) {
-                    intent.putExtra("drillId", getIntent().getIntExtra("drillId", 0));
-                    intent.putExtra("playerId", getIntent().getIntExtra("playerId", 0));
-                    intent.putExtra("numberOfShots", pickerValue);
-                    startActivity(intent);
-                    finish();
-                }
+        startButton.setOnClickListener(v -> {
+            if(pickerValue > 0) {
+                intent.putExtra("drillId", getIntent().getIntExtra("drillId", 0));
+                intent.putExtra("playerId", getIntent().getIntExtra("playerId", 0));
+                intent.putExtra("numberOfShots", pickerValue);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -83,11 +73,11 @@ public class DrillActivity extends AppCompatActivity {
                     if(newValue > MAX_PICKER_VALUE) {
                         pickerValue = MAX_PICKER_VALUE;
                         picker.setText(Integer.toString(pickerValue));
-                        //Toast.makeText(getApplicationContext(), "Maksymalna wartosc to: " + Integer.toString(MAX_PICKER_VALUE), Toast.LENGTH_SHORT);
+                        Toast.makeText(getApplicationContext(), "Maximum value is " + Integer.toString(MAX_PICKER_VALUE), Toast.LENGTH_SHORT).show();
                     } else if(newValue < MIN_PICKER_VALUE) {
                         pickerValue = MIN_PICKER_VALUE;
                         picker.setText(Integer.toString(pickerValue));
-                        //Toast.makeText(getApplicationContext(), "Minimalna wartosc to: " + Integer.toString(MIN_PICKER_VALUE), Toast.LENGTH_SHORT);
+                        Toast.makeText(getApplicationContext(), "Minimum value is " + Integer.toString(MIN_PICKER_VALUE), Toast.LENGTH_SHORT).show();
                     } else {
                         pickerValue = newValue;
                     }

@@ -1,23 +1,19 @@
 package android.basketballapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.basketballapp.adapter.TrainingListAdapter;
-import android.basketballapp.entity.Training;
 import android.basketballapp.viewmodel.TrainingListViewModel;
 import android.basketballapp.viewmodel.factory.TrainingListViewModelFactory;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
 
 public class TrainingListActivity extends AppCompatActivity {
 
@@ -44,33 +40,20 @@ public class TrainingListActivity extends AppCompatActivity {
 
         trainingListViewModel = ViewModelProviders.of(this, new TrainingListViewModelFactory(this.getApplication(), drillId, playerId)).get(TrainingListViewModel.class);
 
-        trainingListViewModel.getTrainings().observe(this, new Observer<List<Training>>() {
-            @Override
-            public void onChanged(List<Training> trainings) {
-                adapter.setTrainings(trainings);
-            }
-        });
+        trainingListViewModel.getTrainings().observe(this, trainings -> adapter.setTrainings(trainings));
 
         Button okButton = findViewById(R.id.ok);
-        okButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        okButton.setOnClickListener(v -> finish());
 
         Button progressChartButton = findViewById(R.id.progress_chart_button);
-        progressChartButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(adapter.getItemCount() < 2) {
-                    Toast.makeText(getApplicationContext(), "Progress chart not available! You need to have at least 2 trainings to generate progress chart.", Toast.LENGTH_SHORT).show();
-                } else {
-                    Intent startProgressChartActivity = new Intent(getApplicationContext(), ProgressChartActivity.class);
-                    startProgressChartActivity.putExtra("drillId", drillId);
-                    startProgressChartActivity.putExtra("playerId", playerId);
-                    startActivity(startProgressChartActivity);
-                }
+        progressChartButton.setOnClickListener(v -> {
+            if(adapter.getItemCount() < 2) {
+                Toast.makeText(getApplicationContext(), "Progress chart not available! You need to have at least 2 trainings to generate progress chart.", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent startProgressChartActivity = new Intent(getApplicationContext(), ProgressChartActivity.class);
+                startProgressChartActivity.putExtra("drillId", drillId);
+                startProgressChartActivity.putExtra("playerId", playerId);
+                startActivity(startProgressChartActivity);
             }
         });
     }

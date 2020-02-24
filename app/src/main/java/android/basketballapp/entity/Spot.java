@@ -2,10 +2,8 @@ package android.basketballapp.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
-import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.Comparator;
@@ -41,7 +39,7 @@ public class Spot {
     public static class SortByOrder implements Comparator<Spot> {
         @Override
         public int compare(Spot spot1, Spot spot2) {
-            return spot2.order - spot2.order;
+            return spot1.order - spot2.order;
         }
     }
 }

@@ -2,7 +2,6 @@ package android.basketballapp.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
-import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
@@ -49,13 +48,5 @@ public class Shot {
         this.trainingId = trainingId;
         this.spotId = spotId;
         this.isMade = isMade;
-    }
-
-    // TODO sprawdzić czy takie przypisywanie działa
-    public Shot(int trainingId, int spotId, boolean isMade, int val) {
-        this.trainingId = trainingId;
-        this.spotId = spotId;
-        this.isMade = isMade;
-        madeFromSpot = val;
     }
 }

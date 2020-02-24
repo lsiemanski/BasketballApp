@@ -2,13 +2,11 @@ package android.basketballapp.viewmodel;
 
 import android.app.Application;
 import android.basketballapp.entity.Training;
-import android.basketballapp.repository.DrillRepository;
 import android.basketballapp.repository.TrainingRepository;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 
 import java.util.List;
 

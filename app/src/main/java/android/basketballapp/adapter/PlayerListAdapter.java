@@ -1,6 +1,5 @@
 package android.basketballapp.adapter;
 
-import android.basketballapp.DrillActivity;
 import android.basketballapp.DrillListActivity;
 import android.basketballapp.R;
 import android.basketballapp.entity.Player;
@@ -39,13 +38,10 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Pl
             imageView = itemView.findViewById(R.id.profile_picture);
             selectButton = itemView.findViewById(R.id.select_button);
 
-            selectButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent startCategoriesIntent = new Intent(context, DrillListActivity.class);
-                    startCategoriesIntent.putExtra("playerId", playerId); //TODO: poprawic nazwy
-                    context.startActivity(startCategoriesIntent);
-                }
+            selectButton.setOnClickListener(v -> {
+                Intent startCategoriesIntent = new Intent(context, DrillListActivity.class);
+                startCategoriesIntent.putExtra("playerId", playerId); //TODO: poprawic nazwy
+                context.startActivity(startCategoriesIntent);
             });
         }
     }

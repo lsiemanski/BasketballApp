@@ -2,7 +2,6 @@ package android.basketballapp.viewmodel;
 
 import android.app.Application;
 import android.basketballapp.entity.Category;
-import android.basketballapp.entity.Drill;
 import android.basketballapp.entity.DrillAndCategory;
 import android.basketballapp.repository.CategoryRepository;
 import android.basketballapp.repository.DrillRepository;
@@ -25,7 +24,10 @@ public class DrillViewModel extends AndroidViewModel {
         allDrills = drillRepository.getAllDrills();
     }
 
-    public LiveData<List<DrillAndCategory>> getAllDrills() { return allDrills; }
+    public LiveData<List<DrillAndCategory>> getAllDrills() {
+        return allDrills; }
 
-    public Category getCategory(int id) { return categoryRepository.getCategory(id); }
+    public Category getCategory(int id) {
+        return categoryRepository.getCategory(id);
+    }
 }

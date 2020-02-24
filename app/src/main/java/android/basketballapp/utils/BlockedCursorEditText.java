@@ -2,7 +2,6 @@ package android.basketballapp.utils;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.EditText;
 
 import com.google.android.material.textfield.TextInputEditText;
 

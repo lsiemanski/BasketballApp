@@ -4,7 +4,6 @@ import android.app.Application;
 import android.basketballapp.dao.CategoryDao;
 import android.basketballapp.database.BasketballAppRoomDatabase;
 import android.basketballapp.entity.Category;
-import android.basketballapp.entity.Player;
 
 public class CategoryRepository {
     private CategoryDao categoryDao;
@@ -19,8 +18,6 @@ public class CategoryRepository {
     }
 
     public void insert(Category category) {
-        BasketballAppRoomDatabase.databaseWriterExecutor.execute(() -> {
-            categoryDao.insert(category);
-        });
+        categoryDao.insert(category);
     }
 }

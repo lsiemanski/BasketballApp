@@ -6,7 +6,6 @@ import android.basketballapp.database.BasketballAppRoomDatabase;
 import android.basketballapp.entity.Drill;
 import android.basketballapp.entity.DrillAndCategory;
 import android.basketballapp.entity.DrillAndSpots;
-import android.basketballapp.entity.Player;
 
 import androidx.lifecycle.LiveData;
 
@@ -25,10 +24,10 @@ public class DrillRepository {
     public LiveData<List<DrillAndCategory>> getAllDrills() { return allDrills; }
 
     public void insert(Drill drill) {
-        BasketballAppRoomDatabase.databaseWriterExecutor.execute(() -> {
-            drillDao.insert(drill);
-        });
+        drillDao.insert(drill);
     }
 
-    public LiveData<DrillAndSpots> getDrillAndSpots(int id) { return drillDao.getDrillWithSpots(id); }
+    public LiveData<DrillAndSpots> getDrillAndSpots(int id) {
+        return drillDao.getDrillWithSpots(id);
+    }
 }

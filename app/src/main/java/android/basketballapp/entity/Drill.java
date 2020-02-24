@@ -2,12 +2,9 @@ package android.basketballapp.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
-import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
-
-import java.util.List;
 
 @Entity(tableName="drills", foreignKeys =
 @ForeignKey(entity = Category.class,

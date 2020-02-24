@@ -6,7 +6,6 @@ import android.basketballapp.entity.Shot;
 import android.basketballapp.entity.ShotAndSpot;
 import android.basketballapp.entity.Spot;
 import android.basketballapp.entity.Training;
-import android.basketballapp.entity.TrainingAndShots;
 import android.basketballapp.repository.DrillRepository;
 import android.basketballapp.repository.ShotRepository;
 import android.basketballapp.repository.TrainingRepository;
@@ -16,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,26 +117,24 @@ public class TrainingViewModel extends AndroidViewModel {
         return numberOfShots == totalShots;
     }
 
-    public boolean hasAnyData() { return totalShots > 0; }
+    public boolean hasAnyData() {
+        return totalShots > 0;
+    }
 
     public void saveTrainingData() {
         if(totalShots > 0) {
-            AsyncTask.execute(new Runnable() {
-                @Override
-                public void run() {
-                    currentTraining.totalMakes = totalMakes;
-                    currentTraining.totalShots = totalShots;
+            AsyncTask.execute(() -> {
+                currentTraining.totalMakes = totalMakes;
+                currentTraining.totalShots = totalShots;
 
-                    int trainingId = (int) trainingRepository.insert(currentTraining);
-                    currentTraining.trainingId = trainingId;
+                int trainingId = (int) trainingRepository.insert(currentTraining);
+                currentTraining.trainingId = trainingId;
 
-                    for(int i = 0; i < shotAndSpots.size(); i++) {
-                        shotAndSpots.get(i).shot.trainingId = trainingId;
-                        shotRepository.insert(shotAndSpots.get(i).shot);
-                    }
+                for(int i = 0; i < shotAndSpots.size(); i++) {
+                    shotAndSpots.get(i).shot.trainingId = trainingId;
+                    shotRepository.insert(shotAndSpots.get(i).shot);
                 }
             });
-
         }
     }
 
@@ -174,5 +170,8 @@ public class TrainingViewModel extends AndroidViewModel {
     public int getTrainingId() {
         return currentTraining.trainingId;
     }
-    public int getDrillId() { return currentTraining.drillId; }
+
+    public int getDrillId() {
+        return currentTraining.drillId;
+    }
 }

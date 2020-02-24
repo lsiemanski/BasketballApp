@@ -2,31 +2,20 @@ package android.basketballapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.basketballapp.adapter.TrainingSummaryListAdapter;
-import android.basketballapp.entity.DrillAndSpots;
-import android.basketballapp.entity.ShotAndSpot;
-import android.basketballapp.entity.TrainingAndShots;
 import android.basketballapp.viewmodel.TrainingSummaryViewModel;
 import android.basketballapp.viewmodel.factory.TrainingSummaryViewModelFactory;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 public class TrainingSummaryActivity extends AppCompatActivity {
@@ -68,19 +57,13 @@ public class TrainingSummaryActivity extends AppCompatActivity {
         trainingSummaryViewModel = ViewModelProviders.of(this, new TrainingSummaryViewModelFactory(this.getApplication(), trainingId, drillId)).get(TrainingSummaryViewModel.class);
 
         LifecycleOwner lifecycleOwner = this;
-        trainingSummaryViewModel.getDrillAndSpots().observe(lifecycleOwner, new Observer<DrillAndSpots>() {
-            @Override
-            public void onChanged(DrillAndSpots drillAndSpots) {
-                trainingSummaryViewModel.getTrainingAndShots().observe(lifecycleOwner, new Observer<TrainingAndShots>() {
-                    @Override
-                    public void onChanged(TrainingAndShots trainingAndShots) {
-                        trainingSummaryViewModel.countMakesAndMisses();
-                        adapter.setShots(trainingSummaryViewModel.getShotAndSpots());
+        trainingSummaryViewModel.getDrillAndSpots().observe(lifecycleOwner, drillAndSpots -> {
+            trainingSummaryViewModel.getTrainingAndShots().observe(lifecycleOwner, trainingAndShots -> {
+                trainingSummaryViewModel.countMakesAndMisses();
+                adapter.setShots(trainingSummaryViewModel.getShotAndSpots());
 
-                        updateSpotLayouts();
-                    }
-                });
-            }
+                updateSpotLayouts();
+            });
         });
     }
 
@@ -97,12 +80,7 @@ public class TrainingSummaryActivity extends AppCompatActivity {
 
         okButton = findViewById(R.id.ok);
 
-        okButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        okButton.setOnClickListener(v -> finish());
     }
 
     private void updateSpotLayouts() {
@@ -117,7 +95,6 @@ public class TrainingSummaryActivity extends AppCompatActivity {
     }
 
     private Drawable getColorDrawable(float percent) {
-        System.out.println(percent);
         Resources resources = getResources();
         if(percent <= 0.21)
             return resources.getDrawable(R.drawable.spot_red, getTheme());

@@ -1,7 +1,6 @@
 package android.basketballapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.basketballapp.adapter.TrainingSummaryListAdapter;
-import android.basketballapp.entity.DrillAndSpots;
 import android.basketballapp.entity.ShotAndSpot;
 import android.basketballapp.viewmodel.TrainingViewModel;
 import android.basketballapp.viewmodel.factory.TrainingViewModelFactory;
@@ -17,12 +15,9 @@ import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 public class TrainingActivity extends AppCompatActivity {
@@ -67,12 +62,9 @@ public class TrainingActivity extends AppCompatActivity {
         trainingSummaryRecyclerView.setAdapter(adapter);
         trainingSummaryRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        trainingViewModel.getDrillAndSpots().observe(this, new Observer<DrillAndSpots>() {
-            @Override
-            public void onChanged(DrillAndSpots drillAndSpots) {
-                trainingViewModel.initTraining(drillId, playerId, numberOfShots);
-            }
-        });
+        trainingViewModel.getDrillAndSpots().observe(this, drillAndSpots ->
+            trainingViewModel.initTraining(drillId, playerId, numberOfShots)
+        );
     }
 
     private void initViewModel(int drillId) {
@@ -132,11 +124,9 @@ public class TrainingActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-        }
+        if (item.getItemId() == android.R.id.home)
+            onBackPressed();
+
         return super.onOptionsItemSelected(item);
     }
 

@@ -3,15 +3,10 @@ package android.basketballapp.adapter;
 import android.basketballapp.DrillActivity;
 import android.basketballapp.R;
 import android.basketballapp.TrainingListActivity;
-import android.basketballapp.entity.Category;
-import android.basketballapp.entity.Drill;
 import android.basketballapp.entity.DrillAndCategory;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-import android.icu.util.ULocale;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,30 +37,24 @@ public class DrillListAdapter extends RecyclerView.Adapter<DrillListAdapter.Dril
             imageView = itemView.findViewById(R.id.category_picture);
             selectButton = itemView.findViewById(R.id.select_button);
 
-            selectButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(!htmlFile.equals("")) {
-                        Intent drillActivityIntent = new Intent(context, DrillActivity.class);
-                        drillActivityIntent.putExtra("htmlFile", htmlFile);
-                        drillActivityIntent.putExtra("drillName", drillNameView.getText());
-                        drillActivityIntent.putExtra("drillId", drillId);
-                        drillActivityIntent.putExtra("playerId", playerId);
-                        context.startActivity(drillActivityIntent);
-                    }
+            selectButton.setOnClickListener(v -> {
+                if(!htmlFile.equals("")) {
+                    Intent drillActivityIntent = new Intent(context, DrillActivity.class);
+                    drillActivityIntent.putExtra("htmlFile", htmlFile);
+                    drillActivityIntent.putExtra("drillName", drillNameView.getText());
+                    drillActivityIntent.putExtra("drillId", drillId);
+                    drillActivityIntent.putExtra("playerId", playerId);
+                    context.startActivity(drillActivityIntent);
                 }
             });
 
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    Intent trainingListActivityIntent = new Intent(context, TrainingListActivity.class);
-                    trainingListActivityIntent.putExtra("drillId", drillId);
-                    trainingListActivityIntent.putExtra("playerId", playerId);
-                    trainingListActivityIntent.putExtra("drillName", drillNameView.getText());
-                    context.startActivity(trainingListActivityIntent);
-                    return false;
-                }
+            itemView.setOnLongClickListener(v -> {
+                Intent trainingListActivityIntent = new Intent(context, TrainingListActivity.class);
+                trainingListActivityIntent.putExtra("drillId", drillId);
+                trainingListActivityIntent.putExtra("playerId", playerId);
+                trainingListActivityIntent.putExtra("drillName", drillNameView.getText());
+                context.startActivity(trainingListActivityIntent);
+                return false;
             });
 
         }

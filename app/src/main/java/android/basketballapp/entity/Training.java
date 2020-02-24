@@ -4,15 +4,12 @@ import android.basketballapp.converter.DateConverter;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
-import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
-import androidx.room.Relation;
 import androidx.room.TypeConverters;
 
 import java.util.Date;
-import java.util.List;
 
 @Entity(tableName="trainings", foreignKeys = {
         @ForeignKey(entity = Drill.class,
