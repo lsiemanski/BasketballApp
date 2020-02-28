@@ -14,11 +14,11 @@ import java.util.Comparator;
 import java.util.List;
 
 public class PlayerViewModel extends AndroidViewModel {
-
     private PlayerRepository playerRepository;
+
     private List<Player> allPlayersList;
-    private LiveData<List<Player>> allPlayers;
     private MediatorLiveData<List<Player>> shownPlayers;
+
     private boolean nameAscending = false;
     private boolean dateAscending = true;
     private boolean positionAscending = true;
@@ -26,9 +26,8 @@ public class PlayerViewModel extends AndroidViewModel {
     public PlayerViewModel(Application application) {
         super(application);
         playerRepository = new PlayerRepository(application);
-        allPlayers = playerRepository.getAllPlayers();
         shownPlayers = new MediatorLiveData<>();
-        shownPlayers.addSource(allPlayers, value -> shownPlayers.setValue(value));
+        shownPlayers.addSource(playerRepository.getAllPlayers(), value -> shownPlayers.setValue(value));
     }
 
     public LiveData<List<Player>> getAllPlayers() {
@@ -44,11 +43,10 @@ public class PlayerViewModel extends AndroidViewModel {
             allPlayersList = shownPlayers.getValue();
 
         List<Player> filteredPlayers = new ArrayList<>();
-        for(Player player : allPlayersList) {
-            if(player.getPosition() == position) {
+
+        for(Player player : allPlayersList)
+            if(player.getPosition() == position)
                 filteredPlayers.add(player);
-            }
-        }
 
         shownPlayers.setValue(filteredPlayers);
     }

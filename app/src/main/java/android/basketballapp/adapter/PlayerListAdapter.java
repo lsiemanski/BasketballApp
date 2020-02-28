@@ -40,7 +40,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Pl
 
             selectButton.setOnClickListener(v -> {
                 Intent startCategoriesIntent = new Intent(context, DrillListActivity.class);
-                startCategoriesIntent.putExtra("playerId", playerId); //TODO: poprawic nazwy
+                startCategoriesIntent.putExtra("playerId", playerId);
                 context.startActivity(startCategoriesIntent);
             });
         }

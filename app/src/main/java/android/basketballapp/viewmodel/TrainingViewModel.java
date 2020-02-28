@@ -41,7 +41,6 @@ public class TrainingViewModel extends AndroidViewModel {
 
     public TrainingViewModel(@NonNull Application application, int drillId) {
         super(application);
-        application.getApplicationContext(); //TODO czy to potrzebne?
         trainingRepository = new TrainingRepository(application);
         drillRepository = new DrillRepository(application);
         shotRepository = new ShotRepository(application);

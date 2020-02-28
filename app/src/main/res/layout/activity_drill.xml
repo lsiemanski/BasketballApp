@@ -16,7 +16,6 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginBottom="70dp" />
 
-
     <ImageView
         android:id="@+id/light_background"
         android:layout_width="match_parent"

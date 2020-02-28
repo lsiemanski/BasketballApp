@@ -6,30 +6,25 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.basketballapp.adapter.PlayerListAdapter;
 import android.basketballapp.entity.Player;
+import android.basketballapp.utils.ImageSaveUtil;
 import android.basketballapp.viewmodel.PlayerViewModel;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int CREATE_NEW_PLAYER = 1;
 
     private PlayerViewModel playerViewModel;
-    private static final int CREATE_NEW_PLAYER = 1;
+
     private MenuItem showAllItem;
     private MenuItem sortByPositionItem;
 
@@ -44,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         playerViewModel = ViewModelProviders.of(this).get(PlayerViewModel.class);
-
         playerViewModel.getAllPlayers().observe(this, players -> adapter.setPlayers(players));
     }
 
@@ -135,34 +129,18 @@ public class MainActivity extends AppCompatActivity {
 
             if(image != null) {
                 String imageFilename = new SimpleDateFormat("yyyyMMddHHmmss'.png'").format(new Date());
-                saveImage(imageFilename, image);
+                ImageSaveUtil.saveImage(this.getApplication(), imageFilename, image);
                 newPlayer.image = imageFilename;
             }
 
-            playerViewModel.insert(newPlayer);
-        }
-    }
-
-    private void saveImage(String filename, String image) {
-        Bitmap bitmap = null;
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(image));
-        } catch(FileNotFoundException e) {
-            e.printStackTrace();
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
-
-        ContextWrapper cw = new ContextWrapper(getApplicationContext());
-        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-        File file = new File(directory, filename);
-        try {
-            FileOutputStream fos = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            fos.flush();
-            fos.close();
-        } catch(IOException e) {
-            e.printStackTrace();
+            @SuppressLint("StaticFieldLeak") AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    playerViewModel.insert(newPlayer);
+                    return null;
+                }
+            };
+            asyncTask.execute();
         }
     }
 }

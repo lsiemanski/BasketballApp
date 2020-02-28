@@ -60,7 +60,6 @@ public class ProgressChartActivity extends AppCompatActivity {
         tableLayout = findViewById(R.id.header_table);
 
         Button okButton = findViewById(R.id.ok);
-
         okButton.setOnClickListener(v -> finish());
 
         adapter = new TrainingSummaryListAdapter(this);
@@ -132,7 +131,7 @@ public class ProgressChartActivity extends AppCompatActivity {
         for(int i = 0; i < trainings.size(); i++) {
             Training training = trainings.get(i);
             entries.add(new Entry(i, (float)training.totalMakes/training.totalShots));
-            dates[i] = (new SimpleDateFormat("dd-MM-yy").format(training.date)); //TODO export date format to some resource variable
+            dates[i] = (new SimpleDateFormat("dd-MM-yy").format(training.date));
         }
 
         IndexAxisValueFormatter formatter = new IndexAxisValueFormatter() {
@@ -146,7 +145,7 @@ public class ProgressChartActivity extends AppCompatActivity {
         formatter.setValues(dates);
         chart.getXAxis().setValueFormatter(formatter);
 
-        LineDataSet dataSet = new LineDataSet(entries, "MAKE%"); // TODO export MAKE% string to resources
+        LineDataSet dataSet = new LineDataSet(entries, "MAKE%");
         configureDataSet(dataSet);
 
         chart.setData(new LineData(dataSet));

@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 public class TrainingListActivity extends AppCompatActivity {
 
     private TrainingListViewModel trainingListViewModel;

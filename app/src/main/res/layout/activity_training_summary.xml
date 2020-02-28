@@ -37,7 +37,6 @@
             app:layout_constraintStart_toStartOf="@+id/light_background"
             app:layout_constraintTop_toTopOf="@+id/light_background" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

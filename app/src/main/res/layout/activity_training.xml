@@ -25,15 +25,6 @@
         android:background="@drawable/floor_light"
         android:layout_weight="25">
 
-        <!--<ImageView-->
-            <!--android:id="@+id/light_background"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:contentDescription=""-->
-            <!--android:scaleType="centerCrop"-->
-            <!--android:src="@drawable/floor_light"-->
-            <!--app:layout_constraintTop_toTopOf="parent" />-->
-
         <Button
             android:id="@+id/make"
             android:layout_width="100dp"

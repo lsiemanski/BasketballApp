@@ -3,6 +3,7 @@ package android.basketballapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.basketballapp.utils.BlockedCursorEditText;
+import android.basketballapp.utils.StringUtils;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -52,17 +53,15 @@ public class DrillActivity extends AppCompatActivity {
 
         picker.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(s.toString().equals("0")) {
                     picker.setText("");
                     pickerValue = 0;
-                } else if(hasLeadingZeros(s.toString())) {
-                    picker.setText(trimLeadingZeros(s.toString()));
+                } else if(StringUtils.hasLeadingZeros(s.toString())) {
+                    picker.setText(StringUtils.trimLeadingZeros(s.toString()));
                 }
             }
 
@@ -73,11 +72,11 @@ public class DrillActivity extends AppCompatActivity {
                     if(newValue > MAX_PICKER_VALUE) {
                         pickerValue = MAX_PICKER_VALUE;
                         picker.setText(Integer.toString(pickerValue));
-                        Toast.makeText(getApplicationContext(), "Maximum value is " + Integer.toString(MAX_PICKER_VALUE), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Maximum value is " + MAX_PICKER_VALUE, Toast.LENGTH_SHORT).show();
                     } else if(newValue < MIN_PICKER_VALUE) {
                         pickerValue = MIN_PICKER_VALUE;
                         picker.setText(Integer.toString(pickerValue));
-                        Toast.makeText(getApplicationContext(), "Minimum value is " + Integer.toString(MIN_PICKER_VALUE), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Minimum value is " + MIN_PICKER_VALUE, Toast.LENGTH_SHORT).show();
                     } else {
                         pickerValue = newValue;
                     }
@@ -98,14 +97,5 @@ public class DrillActivity extends AppCompatActivity {
                 pickerValue += 1;
             picker.setText(Integer.toString(pickerValue));
         });
-    }
-
-    //TODO: zrobic klase Utils na to
-    private String trimLeadingZeros(String s) {
-        return s.replaceFirst("^0+(?!$)", "");
-    }
-
-    private boolean hasLeadingZeros(String s) {
-        return s.startsWith("0");
     }
 }

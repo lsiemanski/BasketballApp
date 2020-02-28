@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.basketballapp.adapter.TrainingSummaryListAdapter;
+import android.basketballapp.utils.SpotLayout;
 import android.basketballapp.viewmodel.TrainingSummaryViewModel;
 import android.basketballapp.viewmodel.factory.TrainingSummaryViewModelFactory;
 import android.content.Intent;
@@ -25,20 +26,6 @@ public class TrainingSummaryActivity extends AppCompatActivity {
     private SpotLayout[] spotLayouts;
     private Button okButton;
     private RecyclerView trainingSummaryRecyclerView;
-
-    private class SpotLayout {
-        ImageView imageView;
-        TextView textView;
-
-        SpotLayout(ImageView imageView, TextView textView) {
-            this.imageView = imageView;
-            this.textView = textView;
-        }
-
-        TransitionDrawable getDrawable() {
-            return (TransitionDrawable) imageView.getDrawable();
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

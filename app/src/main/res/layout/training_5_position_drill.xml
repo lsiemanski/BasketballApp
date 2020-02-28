@@ -70,9 +70,7 @@
             </androidx.recyclerview.widget.RecyclerView>
 
         </TableLayout>
-
-
-
+        
     </LinearLayout>
 
 </LinearLayout>

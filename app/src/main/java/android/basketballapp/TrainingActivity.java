@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.basketballapp.adapter.TrainingSummaryListAdapter;
 import android.basketballapp.entity.ShotAndSpot;
+import android.basketballapp.utils.SpotLayout;
 import android.basketballapp.viewmodel.TrainingViewModel;
 import android.basketballapp.viewmodel.factory.TrainingViewModelFactory;
 import android.content.Intent;
@@ -30,20 +31,6 @@ public class TrainingActivity extends AppCompatActivity {
     private TrainingSummaryListAdapter adapter;
 
     private TrainingViewModel trainingViewModel;
-
-    private class SpotLayout {
-        ImageView imageView;
-        TextView textView;
-
-        SpotLayout(ImageView imageView, TextView textView) {
-            this.imageView = imageView;
-            this.textView = textView;
-        }
-
-        TransitionDrawable getDrawable() {
-            return (TransitionDrawable) imageView.getDrawable();
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
