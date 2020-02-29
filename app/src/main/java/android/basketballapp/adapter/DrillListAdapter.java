@@ -1,9 +1,9 @@
 package android.basketballapp.adapter;
 
-import android.basketballapp.DrillActivity;
 import android.basketballapp.R;
 import android.basketballapp.TrainingListActivity;
 import android.basketballapp.entity.DrillAndCategory;
+import android.basketballapp.intentfactory.DrillActivityIntentFactory;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -38,11 +38,8 @@ public class DrillListAdapter extends RecyclerView.Adapter<DrillListAdapter.Dril
 
             selectButton.setOnClickListener(v -> {
                 if(!htmlFile.equals("")) {
-                    Intent drillActivityIntent = new Intent(context, DrillActivity.class);
-                    drillActivityIntent.putExtra("htmlFile", htmlFile);
-                    drillActivityIntent.putExtra("drillName", drillNameView.getText());
-                    drillActivityIntent.putExtra("drillId", drillId);
-                    drillActivityIntent.putExtra("playerId", playerId);
+                    Intent drillActivityIntent =
+                            DrillActivityIntentFactory.create(context, htmlFile, drillNameView.getText().toString(), drillId, playerId);
                     context.startActivity(drillActivityIntent);
                 }
             });

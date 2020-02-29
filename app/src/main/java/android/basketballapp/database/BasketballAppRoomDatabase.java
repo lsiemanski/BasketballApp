@@ -8,20 +8,17 @@ import android.basketballapp.dao.SpotDao;
 import android.basketballapp.dao.TrainingDao;
 import android.basketballapp.entity.Category;
 import android.basketballapp.entity.Drill;
-import android.basketballapp.entity.DrillAndCategory;
 import android.basketballapp.entity.Player;
 import android.basketballapp.entity.Shot;
 import android.basketballapp.entity.Spot;
 import android.basketballapp.entity.Training;
-import android.basketballapp.entity.TrainingAndShots;
+import android.basketballapp.utils.DrillNames;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.concurrent.ExecutorService;
@@ -73,13 +70,15 @@ public abstract class BasketballAppRoomDatabase extends RoomDatabase {
                 drillDao.deleteAll();
                 shooting = categoryDao.getCategory("Shooting");
                 dribbling = categoryDao.getCategory("Dribbling");
-                Drill drill = new Drill("5 position 3-point shooting", "5_position_drill.html", shooting.id);
+                Drill drill = new Drill(DrillNames.FIVE_POSITION_3_POINT_SHOOTING, "5_position_drill.html", shooting.id);
                 drillDao.insert(drill);
-                Drill drill2 = new Drill("Ray Allen drill", "ray_allen_drill.html", shooting.id);
+                Drill drill1 = new Drill(DrillNames.FREE_THROW_SHOOTING, "free_throw_shooting_drill.html", shooting.id);
+                drillDao.insert(drill1);
+                Drill drill2 = new Drill(DrillNames.RAY_ALLEN_DRILL, "ray_allen_drill.html", shooting.id);
                 drillDao.insert(drill2);
-                Drill drill3 = new Drill("Form shooting", "", shooting.id);
+                Drill drill3 = new Drill(DrillNames.FORM_SHOOTING, "form_shooting.html", shooting.id);
                 drillDao.insert(drill3);
-                Drill drill4 = new Drill("Warmup dribbling", "", dribbling.id);
+                Drill drill4 = new Drill(DrillNames.WARMUP_DRIBBLING, "warmup_dribbling.html", dribbling.id);
                 drillDao.insert(drill4);
                 SpotDao spotDao = INSTANCE.spotDao();
                 spotDao.deleteAll();
@@ -88,6 +87,7 @@ public abstract class BasketballAppRoomDatabase extends RoomDatabase {
                 spotDao.insert(new Spot(1, "Right 45", 3));
                 spotDao.insert(new Spot(1, "Left 45", 4));
                 spotDao.insert(new Spot(1, "Top", 5));
+                spotDao.insert(new Spot(2, "Free throw", 1));
             });
         }
 

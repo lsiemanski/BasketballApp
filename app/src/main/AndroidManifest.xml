@@ -12,22 +12,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:allowBackup"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:allowBackup">
+        <activity android:name=".DrillWithPickerActivity"></activity>
         <activity
             android:name=".ProgressChartActivity"
             android:label="Progress chart" />
         <activity
             android:name=".TrainingListActivity"
             android:label="Trainings"
-            android:parentActivityName=".DrillListActivity"/>
+            android:parentActivityName=".DrillListActivity" />
         <activity
             android:name=".TrainingSummaryActivity"
-            android:label="Training summary"/>
+            android:label="Training summary" />
         <activity
             android:name=".TrainingActivity"
-            android:parentActivityName=".DrillActivity"
             android:label="Training"
+            android:parentActivityName=".BasicDrillActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".DrillListActivity"
@@ -35,7 +36,7 @@
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DrillActivity"
+            android:name=".BasicDrillActivity"
             android:label="Drill"
             android:parentActivityName=".DrillListActivity"
             android:screenOrientation="portrait" />
@@ -50,6 +51,7 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

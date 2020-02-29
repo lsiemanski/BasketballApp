@@ -13,13 +13,10 @@ import android.basketballapp.utils.SpotLayout;
 import android.basketballapp.viewmodel.TrainingViewModel;
 import android.basketballapp.viewmodel.factory.TrainingViewModelFactory;
 import android.content.Intent;
-import android.graphics.drawable.TransitionDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 public class TrainingActivity extends AppCompatActivity {
 

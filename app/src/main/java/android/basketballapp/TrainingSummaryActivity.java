@@ -13,11 +13,8 @@ import android.basketballapp.viewmodel.factory.TrainingSummaryViewModelFactory;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 public class TrainingSummaryActivity extends AppCompatActivity {
 
