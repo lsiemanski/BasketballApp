@@ -3,7 +3,8 @@ package android.basketballapp.adapter;
 import android.basketballapp.R;
 import android.basketballapp.TrainingListActivity;
 import android.basketballapp.entity.DrillAndCategory;
-import android.basketballapp.intentfactory.DrillActivityIntentFactory;
+import android.basketballapp.utils.factory.DrillActivityIntentFactory;
+import android.basketballapp.utils.DrillUtils;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +30,7 @@ public class DrillListAdapter extends RecyclerView.Adapter<DrillListAdapter.Dril
         private final Button selectButton;
         private String htmlFile;
         private int drillId;
+        private int defaultShots;
 
         private DrillViewHolder(View itemView) {
             super(itemView);
@@ -37,19 +40,21 @@ public class DrillListAdapter extends RecyclerView.Adapter<DrillListAdapter.Dril
             selectButton = itemView.findViewById(R.id.select_button);
 
             selectButton.setOnClickListener(v -> {
-                if(!htmlFile.equals("")) {
-                    Intent drillActivityIntent =
-                            DrillActivityIntentFactory.create(context, htmlFile, drillNameView.getText().toString(), drillId, playerId);
-                    context.startActivity(drillActivityIntent);
-                }
+                Intent drillActivityIntent =
+                        DrillActivityIntentFactory.create(context, htmlFile, drillNameView.getText().toString(), drillId, playerId, defaultShots);
+                context.startActivity(drillActivityIntent);
             });
 
             itemView.setOnLongClickListener(v -> {
-                Intent trainingListActivityIntent = new Intent(context, TrainingListActivity.class);
-                trainingListActivityIntent.putExtra("drillId", drillId);
-                trainingListActivityIntent.putExtra("playerId", playerId);
-                trainingListActivityIntent.putExtra("drillName", drillNameView.getText());
-                context.startActivity(trainingListActivityIntent);
+                if(DrillUtils.canOpenTrainingList(drillNameView.getText().toString())) {
+                    Intent trainingListActivityIntent = new Intent(context, TrainingListActivity.class);
+                    trainingListActivityIntent.putExtra("drillId", drillId);
+                    trainingListActivityIntent.putExtra("playerId", playerId);
+                    trainingListActivityIntent.putExtra("drillName", drillNameView.getText());
+                    context.startActivity(trainingListActivityIntent);
+                } else {
+                    Toast.makeText(context, "Training list is unavailable for this activity.", Toast.LENGTH_SHORT).show();
+                }
                 return false;
             });
 
@@ -95,6 +100,7 @@ public class DrillListAdapter extends RecyclerView.Adapter<DrillListAdapter.Dril
             holder.drillNameView.setText(current.drill.name);
             holder.htmlFile = current.drill.htmlFile;
             holder.drillId = current.drill.drillId;
+            holder.defaultShots = current.drill.defaultShots;
 
             Resources resources = context.getResources();
             final int resourceId = resources.getIdentifier(current.category.image, "drawable", context.getPackageName());

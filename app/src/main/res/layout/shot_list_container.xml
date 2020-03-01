@@ -1,0 +1,66 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/double_floor_dark">
+
+    <TableLayout
+        android:id="@+id/header_table"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow>
+            <TextView
+                android:layout_height="40dp"
+                android:layout_width="150dp"
+                android:text="Position"
+                android:textSize="25dp"
+                android:layout_weight="35"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textColor="@color/light_brown_panel"/>
+
+            <TextView
+                android:layout_height="40dp"
+                android:layout_width="80dp"
+                android:text="Result"
+                android:textSize="25dp"
+                android:layout_weight="20"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textColor="@color/light_brown_panel"/>
+
+            <TextView
+                android:layout_height="40dp"
+                android:layout_width="80dp"
+                android:text="Spot"
+                android:textSize="25dp"
+                android:layout_weight="20"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textColor="@color/light_brown_panel"/>
+
+            <TextView
+                android:layout_height="40dp"
+                android:layout_width="100dp"
+                android:text="Total"
+                android:textSize="25dp"
+                android:layout_weight="25"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textColor="@color/light_brown_panel"/>
+
+        </TableRow>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/training_summary_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </TableLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

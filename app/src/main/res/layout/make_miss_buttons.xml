@@ -1,0 +1,41 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/light_background"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:background="@drawable/floor_light">
+
+    <Button
+        android:id="@+id/make"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/floor_dark"
+        android:text="MAKE"
+        android:textColor="#E0BB84"
+        android:textSize="22dp"
+        app:layout_constraintBottom_toBottomOf="@+id/light_background"
+        app:layout_constraintEnd_toEndOf="@+id/light_background"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="@+id/light_background"
+        app:layout_constraintTop_toTopOf="@+id/light_background" />
+
+    <Button
+        android:id="@+id/miss"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/floor_dark"
+        android:text="MISS"
+        android:textColor="#E0BB84"
+        android:textSize="22dp"
+        app:layout_constraintBottom_toBottomOf="@+id/light_background"
+        app:layout_constraintEnd_toEndOf="@+id/light_background"
+        app:layout_constraintHorizontal_bias="0.7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/light_background" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -33,7 +33,7 @@ public class TrainingListActivity extends AppCompatActivity {
         drillNameTextView.setText(drillName);
 
         RecyclerView recyclerView = findViewById(R.id.trainings_recycler_view);
-        adapter = new TrainingListAdapter(this, drillId);
+        adapter = new TrainingListAdapter(this, drillId, drillName);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

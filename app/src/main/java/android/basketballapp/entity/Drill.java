@@ -25,13 +25,17 @@ public class Drill {
     @ColumnInfo(name = "htmlFile")
     public String htmlFile;
 
+    @ColumnInfo(name = "defaultShots")
+    public int defaultShots;
+
     @NonNull
     @ColumnInfo(name="categoryId")
     public int categoryId;
 
-    public Drill(@NonNull String name, @NonNull String htmlFile, @NonNull int categoryId) {
+    public Drill(@NonNull String name, @NonNull String htmlFile, int defaultShots, @NonNull int categoryId) {
         this.name = name;
         this.htmlFile = htmlFile;
+        this.defaultShots = defaultShots;
         this.categoryId = categoryId;
     }
 }

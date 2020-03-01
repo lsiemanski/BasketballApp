@@ -1,6 +1,6 @@
 package android.basketballapp;
 
-import android.basketballapp.intentfactory.TrainingActivityIntentFactory;
+import android.basketballapp.utils.factory.TrainingActivityIntentFactory;
 import android.basketballapp.utils.BlockedCursorEditText;
 import android.basketballapp.utils.StringUtils;
 import android.content.Intent;
@@ -19,6 +19,7 @@ public class DrillWithPickerActivity extends BasicDrillActivity {
 
         int minPickerValue = getIntent().getIntExtra("minPickerValue", 1);
         int maxPickerValue = getIntent().getIntExtra("maxPickerValue", 10);
+        int defaultPickerValue = getIntent().getIntExtra("defaultPickerValue", 10);
 
         Button startButton = findViewById(R.id.start_training);
         startButton.setOnClickListener(v -> {
@@ -37,7 +38,9 @@ public class DrillWithPickerActivity extends BasicDrillActivity {
         Button minusButton = findViewById(R.id.minus);
         Button plusButton = findViewById(R.id.plus);
         BlockedCursorEditText picker = findViewById(R.id.picker);
-        pickerValue = Integer.parseInt(picker.getText().toString());
+
+        pickerValue = defaultPickerValue;
+        picker.setText(Integer.toString(pickerValue));
 
         picker.addTextChangedListener(new TextWatcher() {
             @Override

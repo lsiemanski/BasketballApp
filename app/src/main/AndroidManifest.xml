@@ -14,7 +14,11 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
-        <activity android:name=".DrillWithPickerActivity"></activity>
+        <activity android:name=".TrainingExecutionActivity"></activity>
+        <activity
+            android:name=".DrillWithPickerActivity"
+            android:parentActivityName=".DrillListActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ProgressChartActivity"
             android:label="Progress chart" />
@@ -37,7 +41,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".BasicDrillActivity"
-            android:label="Drill"
             android:parentActivityName=".DrillListActivity"
             android:screenOrientation="portrait" />
         <activity

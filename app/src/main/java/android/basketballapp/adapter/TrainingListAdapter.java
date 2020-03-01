@@ -35,6 +35,7 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
                 Intent trainingSummaryActivityIntent = new Intent(context, TrainingSummaryActivity.class);
                 trainingSummaryActivityIntent.putExtra("trainingId", trainingId);
                 trainingSummaryActivityIntent.putExtra("drillId", drillId);
+                trainingSummaryActivityIntent.putExtra("drillName", drillName);
                 context.startActivity(trainingSummaryActivityIntent);
             });
         }
@@ -68,11 +69,13 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
     private final Context context;
     private List<Training> trainings;
     private int drillId;
+    private String drillName;
 
-    public TrainingListAdapter(Context context, int drillId) {
+    public TrainingListAdapter(Context context, int drillId, String drillName) {
         inflater = LayoutInflater.from(context);
         this.context = context;
         this.drillId = drillId;
+        this.drillName = drillName;
     }
 
     public void setTrainings(List<Training> trainings) {

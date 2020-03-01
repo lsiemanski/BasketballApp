@@ -1,4 +1,4 @@
-package android.basketballapp.intentfactory;
+package android.basketballapp.utils.factory;
 
 import android.basketballapp.BasicDrillActivity;
 import android.basketballapp.DrillWithPickerActivity;
@@ -10,18 +10,20 @@ public class DrillActivityIntentFactory {
 
     private DrillActivityIntentFactory() {}
 
-    public static Intent create(Context context, String htmlFile, String drillName, int drillId, int playerId) {
+    public static Intent create(Context context, String htmlFile, String drillName, int drillId, int playerId, int defaultPickerValue) {
         Intent drillActivityIntent;
         switch (drillName) {
             case DrillNames.FIVE_POSITION_3_POINT_SHOOTING:
                 drillActivityIntent = new Intent(context, DrillWithPickerActivity.class);
                 drillActivityIntent.putExtra("minPickerValue", 1);
                 drillActivityIntent.putExtra("maxPickerValue", 50);
+                drillActivityIntent.putExtra("defaultPickerValue", defaultPickerValue);
                 break;
             case DrillNames.FREE_THROW_SHOOTING:
                 drillActivityIntent = new Intent(context, DrillWithPickerActivity.class);
                 drillActivityIntent.putExtra("minPickerValue", 1);
                 drillActivityIntent.putExtra("maxPickerValue", 1000);
+                drillActivityIntent.putExtra("defaultPickerValue", defaultPickerValue);
                 break;
             case DrillNames.RAY_ALLEN_DRILL:
                 drillActivityIntent = new Intent(context, BasicDrillActivity.class);

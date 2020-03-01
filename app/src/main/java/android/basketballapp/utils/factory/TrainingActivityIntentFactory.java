@@ -1,8 +1,6 @@
-package android.basketballapp.intentfactory;
+package android.basketballapp.utils.factory;
 
-import android.basketballapp.BasicDrillActivity;
-import android.basketballapp.DrillWithPickerActivity;
-import android.basketballapp.TrainingActivity;
+import android.basketballapp.TrainingExecutionActivity;
 import android.basketballapp.utils.DrillNames;
 import android.content.Context;
 import android.content.Intent;
@@ -14,10 +12,10 @@ public class TrainingActivityIntentFactory {
         Intent drillActivityIntent;
         switch (drillName) {
             case DrillNames.FIVE_POSITION_3_POINT_SHOOTING:
-                drillActivityIntent = new Intent(context, TrainingActivity.class);
+                drillActivityIntent = new Intent(context, TrainingExecutionActivity.class);
                 break;
             case DrillNames.FREE_THROW_SHOOTING:
-                drillActivityIntent = new Intent(context, TrainingActivity.class);
+                drillActivityIntent = new Intent(context, TrainingExecutionActivity.class);
                 break;
             default:
                 return null;
